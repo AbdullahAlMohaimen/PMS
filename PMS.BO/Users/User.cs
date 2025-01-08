@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace PMS.BO
 {
-	public class Users
+	public class User
 	{
 		#region Constractor
-		public Users(){}
+		public User(){}
 		#endregion
 
 		public int UserId { get; set; }
@@ -20,7 +20,7 @@ namespace PMS.BO
 
 		// Navigation Properties
 		public ICollection<Team> Teams { get; set; } = new List<Team>();
-		public ICollection<Task> AssignedTasks { get; set; } = new List<Task>();
+		public ICollection<ProjectTask> AssignedTasks { get; set; } = new List<ProjectTask>();
 		public ICollection<Notification> Notifications { get; set; } = new List<Notification>();
 		public ICollection<ActivityLog> ActivityLogs { get; set; } = new List<ActivityLog>();
 		public ICollection<TimeTracking> TimeTrackings { get; set; } = new List<TimeTracking>();

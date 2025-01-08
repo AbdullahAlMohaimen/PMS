@@ -16,7 +16,7 @@ namespace PMS.BO
 		public string Description { get; set; } = string.Empty;
 
 		// Navigation Properties
-		public ICollection<Users> Users { get; set; } = new List<Users>();
+		public ICollection<User> Users { get; set; } = new List<User>();
 		public ICollection<Project> Projects { get; set; } = new List<Project>();
 	}
 }
