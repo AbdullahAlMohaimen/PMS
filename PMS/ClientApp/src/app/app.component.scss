@@ -1,0 +1,23 @@
+.layout-menu-bottom {
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    height: 12px;
+    display: flex;
+    flex-wrap: nowrap;
+}  
+.layout-menu-bottom > div {
+    line-height: 100%;
+}
+.layout-menu-top {
+    position: sticky;
+    top: 0px;
+    width: 100%;
+    height: 12px;
+    display: flex;
+    flex-wrap: nowrap;
+    z-index: 10000;
+}  
+.layout-menu-top > div {
+    line-height: 100%;
+}

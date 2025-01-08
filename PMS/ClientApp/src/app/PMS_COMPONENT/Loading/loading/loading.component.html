@@ -1,0 +1,12 @@
+<p-dialog *ngIf="loading.IsLoginStart === true" [modal]="true" [(visible)]="loading.IsLoginStart">
+    <div class="spinner-box">
+        <div class="configure-border-1">  
+          <div class="configure-core"></div>
+        </div>  
+        <div class="configure-border-2">
+          <div class="configure-core">
+            <i class="pi pi-spin pi-cog" style="font-size: 3rem;color: #099b60;"></i>
+          </div>
+        </div> 
+    </div>
+</p-dialog>

@@ -1,13 +1,18 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { MsalService } from '@azure/msal-angular';
+import { ApiService } from './api.service';
+import { AuthenticationService } from './PMS_SERVICE/Authentication_S/authentication.service';
 
 @Component({
   selector: 'app-root',
-  standalone: true,
-  imports: [RouterOutlet],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  title = 'ClientApp';
+  userProfile: any = null;
+
+  constructor(private msalService: MsalService, private apiService: ApiService,private authService: AuthenticationService) {}
+
+  ngOnInit() {
+  }
 }
