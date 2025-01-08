@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,12 +20,13 @@ namespace PMS.BO
 		public DateTime EndDate { get; set; }
 
 		// Foreign Key
+		[ForeignKey("Team")]
 		public int TeamId { get; set; }
 
 		// Navigation Properties
 		public Team Team { get; set; } = null!;
-		public ICollection<Task> Tasks { get; set; } = new List<Task>();
-		public ICollection<Milestone> Milestones { get; set; } = new List<Milestone>();
-		public ICollection<Resource> Resources { get; set; } = new List<Resource>();
+		public List<ProjectTask> ProjectTasks { get; set; } = new List<ProjectTask>();
+		public List<Milestone> Milestones { get; set; } = new List<Milestone>();
+		public List<Resource> Resources { get; set; } = new List<Resource>();
 	}
 }

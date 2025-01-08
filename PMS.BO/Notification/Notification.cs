@@ -22,6 +22,6 @@ namespace PMS.BO
 		public int UserId { get; set; }
 
 		// Navigation Property
-		public Users User { get; set; } = null!;
+		public User User { get; set; } = null!;
 	}
 }

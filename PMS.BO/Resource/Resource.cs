@@ -17,9 +17,9 @@ namespace PMS.BO
 		public string Url { get; set; } = string.Empty;
 
 		// Foreign Key
-		public int TaskId { get; set; }
+		public int ProjectTaskId { get; set; }
 
 		// Navigation Property
-		public Task Task { get; set; } = null!;
+		public ProjectTask ProjectTasks { get; set; } = null!;
 	}
 }

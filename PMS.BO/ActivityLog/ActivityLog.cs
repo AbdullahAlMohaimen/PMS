@@ -21,7 +21,7 @@ namespace PMS.BO
 		public int TaskId { get; set; }
 
 		// Navigation Properties
-		public Users User { get; set; } = null!;
-		public Task Task { get; set; } = null!;
+		public User User { get; set; } = null!;
+		public ProjectTask Task { get; set; } = null!;
 	}
 }

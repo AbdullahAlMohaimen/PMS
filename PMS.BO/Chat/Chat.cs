@@ -21,7 +21,7 @@ namespace PMS.BO
 		public int ReceiverId { get; set; }
 
 		// Navigation Properties
-		public Users Sender { get; set; } = null!;
-		public Users Receiver { get; set; } = null!;
+		public User Sender { get; set; } = null!;
+		public User Receiver { get; set; } = null!;
 	}
 }
