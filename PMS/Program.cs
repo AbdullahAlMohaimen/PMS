@@ -1,32 +1,118 @@
+using System.Text;
+using Microsoft.OpenApi.Models;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.Extensions.FileProviders;
+using Microsoft.AspNetCore.SpaServices.Extensions;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using PMS.SERVICE;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using PMS;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+#region Get Information from appsetting.jeson
+var otherConfiguration = new ConfigurationBuilder()
+						.SetBasePath(Directory.GetCurrentDirectory())
+						.AddJsonFile("appsettings.json")
+						.Build();
+var configuration = new ConfigurationBuilder()
+					.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+					.Build();
+builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+builder.Services.AddSingleton(configuration);
+#endregion
+
+#region Get JWT
+var jwtConfig = configuration.GetSection("Jwt");
+#endregion
+
+#region Session
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(
+	options => {
+		options.IdleTimeout = TimeSpan.FromMinutes(60);
+		options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+		options.Cookie.HttpOnly = true;
+	}
+);
+#endregion
+
+#region set JWT
+builder.Services.AddAuthentication(options =>
+{
+	options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+	options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(options =>
+{
+	options.RequireHttpsMetadata = false;
+	options.SaveToken = true;
+	options.TokenValidationParameters = new TokenValidationParameters
+	{
+		ValidateIssuer = true,
+		ValidateAudience = true,
+		ValidateLifetime = true,
+		ValidateIssuerSigningKey = true,
+		ValidIssuer = jwtConfig["Issuer"],
+		ValidAudience = jwtConfig["Audience"],
+		IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtConfig["Key"])),
+		ClockSkew = TimeSpan.Zero
+	};
+});
+#endregion
+
+builder.Services.AddCors(options =>
+{
+	options.AddPolicy("AllowAllOrigins",
+		builder =>
+		{
+			builder.AllowAnyOrigin()
+				   .AllowAnyMethod()
+				   .AllowAnyHeader();
+		});
+});
 
 builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+builder.Services.AddSwaggerGen();
+builder.Services.AddControllersWithViews();
+
+builder.Services.AddSpaStaticFiles(configuration =>
+{
+	configuration.RootPath = "ClientApp/dist";
+});
+
 //builder.Services.AddDbContext<DataContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 //builder.Services.AddDbContext<DataContext>(options => options.UseNpgsql(builder.Configuration.co, b => b.MigrationsAssembly("PMS"));
 
 var app = builder.Build();
+app.UseHttpsRedirection();
+app.UseStaticFiles();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
-   app.UseSwaggerUI(options => options.SwaggerEndpoint("/openapi/v1.json","PMS Api"));
+	app.UseSwagger();
+	app.UseSwaggerUI();
+	//app.UseSwaggerUI(options => options.SwaggerEndpoint("/openapi/v1.json","PMS Api"));
 }
 
-app.UseHttpsRedirection();
+if (!app.Environment.IsDevelopment())
+{
+	app.UseSpaStaticFiles();
+}
 
+app.UseCors("AllowAllOrigins");
+app.UseRouting();
+app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapControllers();
-
+app.UseSession();
+app.UseSpa(spa =>
+{
+	spa.Options.SourcePath = "ClientApp";
+});
 app.Run();
