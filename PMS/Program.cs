@@ -85,9 +85,11 @@ builder.Services.AddSpaStaticFiles(configuration =>
 	configuration.RootPath = "ClientApp/dist";
 });
 
-//builder.Services.AddDbContext<DataContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
-//builder.Services.AddDbContext<DataContext>(options => options.UseNpgsql(builder.Configuration.co, b => b.MigrationsAssembly("PMS"));
+builder.Services.AddDbContext<DataContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+#region SERVICE REGISTRATION
+builder.Services.ALLServiceCollection();
+#endregion
 var app = builder.Build();
 app.UseHttpsRedirection();
 app.UseStaticFiles();

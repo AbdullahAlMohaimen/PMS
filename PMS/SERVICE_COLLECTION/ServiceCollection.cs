@@ -1,6 +1,13 @@
-﻿namespace PMS.SERVICE_COLLECTION
+﻿using PMS.BO;
+using PMS.SERVICE;
+
+namespace PMS
 {
-	public class ServiceCollection
-	{
-	}
+    public static class ServiceCollection
+    {
+        public static void ALLServiceCollection(this IServiceCollection oServices)
+        {
+            oServices.AddScoped<ITeamService, TeamService>();
+        }
+    }
 }
