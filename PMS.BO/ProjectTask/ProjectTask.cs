@@ -11,7 +11,7 @@ namespace PMS.BO
 		#region Constractor
 		public ProjectTask() { }
 		#endregion
-		public int ProjectTaskId { get; set; }
+		public int Id { get; set; }
 		public string Title { get; set; } = string.Empty;
 		public string Description { get; set; } = string.Empty;
 		public string Status { get; set; } = "Pending"; // Pending, In Progress, Completed
@@ -26,7 +26,6 @@ namespace PMS.BO
 		public ProjectTask? ParentTask { get; set; }
 		public ICollection<ProjectTask> SubTasks { get; set; } = new List<ProjectTask>();
 		public ICollection<User> Assignees { get; set; } = new List<User>();
-		public ICollection<Resource> Resources { get; set; } = new List<Resource>();
 		public ICollection<ActivityLog> ActivityLogs { get; set; } = new List<ActivityLog>();
 		public ICollection<TimeTracking> TimeTrackings { get; set; } = new List<TimeTracking>();
 	}

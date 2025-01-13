@@ -11,7 +11,7 @@ namespace PMS.BO
 		#region Constractor
 		public TimeTracking() { }
 		#endregion
-		public int TimeTrackingId { get; set; }
+		public int Id { get; set; }
 		public DateTime StartTime { get; set; }
 		public DateTime EndTime { get; set; }
 		public string Notes { get; set; } = string.Empty;

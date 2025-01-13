@@ -12,8 +12,8 @@ using PMS.SERVICE;
 namespace PMS.SERVICE.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250108143821_Initiat")]
-    partial class Initiat
+    [Migration("20250113160533_TeamUser")]
+    partial class TeamUser
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,11 +27,11 @@ namespace PMS.SERVICE.Migrations
 
             modelBuilder.Entity("PMS.BO.ActivityLog", b =>
                 {
-                    b.Property<int>("ActivityLogId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ActivityLogId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Action")
                         .IsRequired()
@@ -50,7 +50,7 @@ namespace PMS.SERVICE.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
 
-                    b.HasKey("ActivityLogId");
+                    b.HasKey("Id");
 
                     b.HasIndex("TaskId");
 
@@ -61,11 +61,11 @@ namespace PMS.SERVICE.Migrations
 
             modelBuilder.Entity("PMS.BO.Chat", b =>
                 {
-                    b.Property<int>("ChatId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ChatId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Message")
                         .IsRequired()
@@ -80,22 +80,32 @@ namespace PMS.SERVICE.Migrations
                     b.Property<DateTime>("Timestamp")
                         .HasColumnType("timestamp with time zone");
 
-                    b.HasKey("ChatId");
+                    b.Property<int?>("UserId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("UserId1")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("ReceiverId");
 
                     b.HasIndex("SenderId");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("UserId1");
 
                     b.ToTable("Chats");
                 });
 
             modelBuilder.Entity("PMS.BO.Milestone", b =>
                 {
-                    b.Property<int>("MilestoneId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("MilestoneId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("Deadline")
                         .HasColumnType("timestamp with time zone");
@@ -111,7 +121,7 @@ namespace PMS.SERVICE.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.HasKey("MilestoneId");
+                    b.HasKey("Id");
 
                     b.HasIndex("ProjectId");
 
@@ -120,11 +130,11 @@ namespace PMS.SERVICE.Migrations
 
             modelBuilder.Entity("PMS.BO.Notification", b =>
                 {
-                    b.Property<int>("NotificationId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("NotificationId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -144,7 +154,7 @@ namespace PMS.SERVICE.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
 
-                    b.HasKey("NotificationId");
+                    b.HasKey("Id");
 
                     b.HasIndex("UserId");
 
@@ -153,11 +163,11 @@ namespace PMS.SERVICE.Migrations
 
             modelBuilder.Entity("PMS.BO.Project", b =>
                 {
-                    b.Property<int>("ProjectId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ProjectId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -180,7 +190,7 @@ namespace PMS.SERVICE.Migrations
                     b.Property<int>("TeamId")
                         .HasColumnType("integer");
 
-                    b.HasKey("ProjectId");
+                    b.HasKey("Id");
 
                     b.HasIndex("TeamId");
 
@@ -189,11 +199,11 @@ namespace PMS.SERVICE.Migrations
 
             modelBuilder.Entity("PMS.BO.ProjectTask", b =>
                 {
-                    b.Property<int>("ProjectTaskId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ProjectTaskId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("Deadline")
                         .HasColumnType("timestamp with time zone");
@@ -216,7 +226,7 @@ namespace PMS.SERVICE.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.HasKey("ProjectTaskId");
+                    b.HasKey("Id");
 
                     b.HasIndex("ParentTaskId");
 
@@ -227,20 +237,17 @@ namespace PMS.SERVICE.Migrations
 
             modelBuilder.Entity("PMS.BO.Resource", b =>
                 {
-                    b.Property<int>("ResourceId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ResourceId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int?>("ProjectId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("ProjectTaskId")
+                    b.Property<int>("ProjectId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Type")
@@ -251,22 +258,20 @@ namespace PMS.SERVICE.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.HasKey("ResourceId");
+                    b.HasKey("Id");
 
                     b.HasIndex("ProjectId");
-
-                    b.HasIndex("ProjectTaskId");
 
                     b.ToTable("Resources");
                 });
 
             modelBuilder.Entity("PMS.BO.Team", b =>
                 {
-                    b.Property<int>("TeamId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("TeamId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -276,18 +281,44 @@ namespace PMS.SERVICE.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.HasKey("TeamId");
+                    b.HasKey("Id");
 
                     b.ToTable("Teams");
                 });
 
-            modelBuilder.Entity("PMS.BO.TimeTracking", b =>
+            modelBuilder.Entity("PMS.BO.TeamUser", b =>
                 {
-                    b.Property<int>("TimeTrackingId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("TimeTrackingId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("TeamId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("TeamUserType")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TeamId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("TeamUser");
+                });
+
+            modelBuilder.Entity("PMS.BO.TimeTracking", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("EndTime")
                         .HasColumnType("timestamp with time zone");
@@ -305,7 +336,7 @@ namespace PMS.SERVICE.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
 
-                    b.HasKey("TimeTrackingId");
+                    b.HasKey("Id");
 
                     b.HasIndex("TaskId");
 
@@ -316,11 +347,11 @@ namespace PMS.SERVICE.Migrations
 
             modelBuilder.Entity("PMS.BO.User", b =>
                 {
-                    b.Property<int>("UserId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("UserId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -338,39 +369,24 @@ namespace PMS.SERVICE.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.HasKey("UserId");
+                    b.HasKey("Id");
 
                     b.ToTable("Users");
                 });
 
             modelBuilder.Entity("ProjectTaskUser", b =>
                 {
-                    b.Property<int>("AssignedTasksProjectTaskId")
+                    b.Property<int>("AssignedTasksId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("AssigneesUserId")
+                    b.Property<int>("AssigneesId")
                         .HasColumnType("integer");
 
-                    b.HasKey("AssignedTasksProjectTaskId", "AssigneesUserId");
+                    b.HasKey("AssignedTasksId", "AssigneesId");
 
-                    b.HasIndex("AssigneesUserId");
+                    b.HasIndex("AssigneesId");
 
                     b.ToTable("ProjectTaskUser");
-                });
-
-            modelBuilder.Entity("TeamUser", b =>
-                {
-                    b.Property<int>("TeamsTeamId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("UsersUserId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("TeamsTeamId", "UsersUserId");
-
-                    b.HasIndex("UsersUserId");
-
-                    b.ToTable("TeamUser");
                 });
 
             modelBuilder.Entity("PMS.BO.ActivityLog", b =>
@@ -395,16 +411,24 @@ namespace PMS.SERVICE.Migrations
             modelBuilder.Entity("PMS.BO.Chat", b =>
                 {
                     b.HasOne("PMS.BO.User", "Receiver")
-                        .WithMany("ChatsReceived")
+                        .WithMany()
                         .HasForeignKey("ReceiverId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("PMS.BO.User", "Sender")
-                        .WithMany("ChatsSent")
+                        .WithMany()
                         .HasForeignKey("SenderId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.HasOne("PMS.BO.User", null)
+                        .WithMany("ChatsReceived")
+                        .HasForeignKey("UserId");
+
+                    b.HasOne("PMS.BO.User", null)
+                        .WithMany("ChatsSent")
+                        .HasForeignKey("UserId1");
 
                     b.Navigation("Receiver");
 
@@ -463,17 +487,32 @@ namespace PMS.SERVICE.Migrations
 
             modelBuilder.Entity("PMS.BO.Resource", b =>
                 {
-                    b.HasOne("PMS.BO.Project", null)
+                    b.HasOne("PMS.BO.Project", "Projects")
                         .WithMany("Resources")
-                        .HasForeignKey("ProjectId");
-
-                    b.HasOne("PMS.BO.ProjectTask", "ProjectTasks")
-                        .WithMany("Resources")
-                        .HasForeignKey("ProjectTaskId")
+                        .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("ProjectTasks");
+                    b.Navigation("Projects");
+                });
+
+            modelBuilder.Entity("PMS.BO.TeamUser", b =>
+                {
+                    b.HasOne("PMS.BO.Team", "Team")
+                        .WithMany("TeamUsers")
+                        .HasForeignKey("TeamId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PMS.BO.User", "User")
+                        .WithMany("TeamUsers")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Team");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("PMS.BO.TimeTracking", b =>
@@ -499,28 +538,13 @@ namespace PMS.SERVICE.Migrations
                 {
                     b.HasOne("PMS.BO.ProjectTask", null)
                         .WithMany()
-                        .HasForeignKey("AssignedTasksProjectTaskId")
+                        .HasForeignKey("AssignedTasksId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("PMS.BO.User", null)
                         .WithMany()
-                        .HasForeignKey("AssigneesUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("TeamUser", b =>
-                {
-                    b.HasOne("PMS.BO.Team", null)
-                        .WithMany()
-                        .HasForeignKey("TeamsTeamId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("PMS.BO.User", null)
-                        .WithMany()
-                        .HasForeignKey("UsersUserId")
+                        .HasForeignKey("AssigneesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -538,8 +562,6 @@ namespace PMS.SERVICE.Migrations
                 {
                     b.Navigation("ActivityLogs");
 
-                    b.Navigation("Resources");
-
                     b.Navigation("SubTasks");
 
                     b.Navigation("TimeTrackings");
@@ -548,6 +570,8 @@ namespace PMS.SERVICE.Migrations
             modelBuilder.Entity("PMS.BO.Team", b =>
                 {
                     b.Navigation("Projects");
+
+                    b.Navigation("TeamUsers");
                 });
 
             modelBuilder.Entity("PMS.BO.User", b =>
@@ -559,6 +583,8 @@ namespace PMS.SERVICE.Migrations
                     b.Navigation("ChatsSent");
 
                     b.Navigation("Notifications");
+
+                    b.Navigation("TeamUsers");
 
                     b.Navigation("TimeTrackings");
                 });

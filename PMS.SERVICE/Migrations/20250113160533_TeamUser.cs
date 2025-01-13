@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace PMS.SERVICE.Migrations
 {
     /// <inheritdoc />
-    public partial class Initiat : Migration
+    public partial class TeamUser : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -16,21 +16,21 @@ namespace PMS.SERVICE.Migrations
                 name: "Teams",
                 columns: table => new
                 {
-                    TeamId = table.Column<int>(type: "integer", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "text", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Teams", x => x.TeamId);
+                    table.PrimaryKey("PK_Teams", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
-                    UserId = table.Column<int>(type: "integer", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "text", nullable: false),
                     Email = table.Column<string>(type: "text", nullable: false),
@@ -39,14 +39,14 @@ namespace PMS.SERVICE.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.UserId);
+                    table.PrimaryKey("PK_Users", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Projects",
                 columns: table => new
                 {
-                    ProjectId = table.Column<int>(type: "integer", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "text", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false),
@@ -57,12 +57,12 @@ namespace PMS.SERVICE.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Projects", x => x.ProjectId);
+                    table.PrimaryKey("PK_Projects", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Projects_Teams_TeamId",
                         column: x => x.TeamId,
                         principalTable: "Teams",
-                        principalColumn: "TeamId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -70,35 +70,47 @@ namespace PMS.SERVICE.Migrations
                 name: "Chats",
                 columns: table => new
                 {
-                    ChatId = table.Column<int>(type: "integer", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Message = table.Column<string>(type: "text", nullable: false),
                     Timestamp = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     SenderId = table.Column<int>(type: "integer", nullable: false),
-                    ReceiverId = table.Column<int>(type: "integer", nullable: false)
+                    ReceiverId = table.Column<int>(type: "integer", nullable: false),
+                    UserId = table.Column<int>(type: "integer", nullable: true),
+                    UserId1 = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Chats", x => x.ChatId);
+                    table.PrimaryKey("PK_Chats", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Chats_Users_ReceiverId",
                         column: x => x.ReceiverId,
                         principalTable: "Users",
-                        principalColumn: "UserId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Chats_Users_SenderId",
                         column: x => x.SenderId,
                         principalTable: "Users",
-                        principalColumn: "UserId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Chats_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Chats_Users_UserId1",
+                        column: x => x.UserId1,
+                        principalTable: "Users",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
                 name: "Notifications",
                 columns: table => new
                 {
-                    NotificationId = table.Column<int>(type: "integer", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Message = table.Column<string>(type: "text", nullable: false),
                     Type = table.Column<string>(type: "text", nullable: false),
@@ -108,12 +120,12 @@ namespace PMS.SERVICE.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Notifications", x => x.NotificationId);
+                    table.PrimaryKey("PK_Notifications", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Notifications_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "UserId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -121,23 +133,26 @@ namespace PMS.SERVICE.Migrations
                 name: "TeamUser",
                 columns: table => new
                 {
-                    TeamsTeamId = table.Column<int>(type: "integer", nullable: false),
-                    UsersUserId = table.Column<int>(type: "integer", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    TeamId = table.Column<int>(type: "integer", nullable: false),
+                    UserId = table.Column<int>(type: "integer", nullable: false),
+                    TeamUserType = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TeamUser", x => new { x.TeamsTeamId, x.UsersUserId });
+                    table.PrimaryKey("PK_TeamUser", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_TeamUser_Teams_TeamsTeamId",
-                        column: x => x.TeamsTeamId,
+                        name: "FK_TeamUser_Teams_TeamId",
+                        column: x => x.TeamId,
                         principalTable: "Teams",
-                        principalColumn: "TeamId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_TeamUser_Users_UsersUserId",
-                        column: x => x.UsersUserId,
+                        name: "FK_TeamUser_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "UserId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -145,7 +160,7 @@ namespace PMS.SERVICE.Migrations
                 name: "Milestones",
                 columns: table => new
                 {
-                    MilestoneId = table.Column<int>(type: "integer", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Title = table.Column<string>(type: "text", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false),
@@ -154,12 +169,12 @@ namespace PMS.SERVICE.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Milestones", x => x.MilestoneId);
+                    table.PrimaryKey("PK_Milestones", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Milestones_Projects_ProjectId",
                         column: x => x.ProjectId,
                         principalTable: "Projects",
-                        principalColumn: "ProjectId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -167,7 +182,7 @@ namespace PMS.SERVICE.Migrations
                 name: "ProjectTasks",
                 columns: table => new
                 {
-                    ProjectTaskId = table.Column<int>(type: "integer", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Title = table.Column<string>(type: "text", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false),
@@ -178,17 +193,39 @@ namespace PMS.SERVICE.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProjectTasks", x => x.ProjectTaskId);
+                    table.PrimaryKey("PK_ProjectTasks", x => x.Id);
                     table.ForeignKey(
                         name: "FK_ProjectTasks_ProjectTasks_ParentTaskId",
                         column: x => x.ParentTaskId,
                         principalTable: "ProjectTasks",
-                        principalColumn: "ProjectTaskId");
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_ProjectTasks_Projects_ProjectId",
                         column: x => x.ProjectId,
                         principalTable: "Projects",
-                        principalColumn: "ProjectId",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Resources",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Type = table.Column<string>(type: "text", nullable: false),
+                    Url = table.Column<string>(type: "text", nullable: false),
+                    ProjectId = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Resources", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Resources_Projects_ProjectId",
+                        column: x => x.ProjectId,
+                        principalTable: "Projects",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -196,7 +233,7 @@ namespace PMS.SERVICE.Migrations
                 name: "ActivityLogs",
                 columns: table => new
                 {
-                    ActivityLogId = table.Column<int>(type: "integer", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Action = table.Column<string>(type: "text", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false),
@@ -206,18 +243,18 @@ namespace PMS.SERVICE.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ActivityLogs", x => x.ActivityLogId);
+                    table.PrimaryKey("PK_ActivityLogs", x => x.Id);
                     table.ForeignKey(
                         name: "FK_ActivityLogs_ProjectTasks_TaskId",
                         column: x => x.TaskId,
                         principalTable: "ProjectTasks",
-                        principalColumn: "ProjectTaskId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_ActivityLogs_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "UserId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -225,59 +262,31 @@ namespace PMS.SERVICE.Migrations
                 name: "ProjectTaskUser",
                 columns: table => new
                 {
-                    AssignedTasksProjectTaskId = table.Column<int>(type: "integer", nullable: false),
-                    AssigneesUserId = table.Column<int>(type: "integer", nullable: false)
+                    AssignedTasksId = table.Column<int>(type: "integer", nullable: false),
+                    AssigneesId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProjectTaskUser", x => new { x.AssignedTasksProjectTaskId, x.AssigneesUserId });
+                    table.PrimaryKey("PK_ProjectTaskUser", x => new { x.AssignedTasksId, x.AssigneesId });
                     table.ForeignKey(
-                        name: "FK_ProjectTaskUser_ProjectTasks_AssignedTasksProjectTaskId",
-                        column: x => x.AssignedTasksProjectTaskId,
+                        name: "FK_ProjectTaskUser_ProjectTasks_AssignedTasksId",
+                        column: x => x.AssignedTasksId,
                         principalTable: "ProjectTasks",
-                        principalColumn: "ProjectTaskId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ProjectTaskUser_Users_AssigneesUserId",
-                        column: x => x.AssigneesUserId,
+                        name: "FK_ProjectTaskUser_Users_AssigneesId",
+                        column: x => x.AssigneesId,
                         principalTable: "Users",
-                        principalColumn: "UserId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Resources",
-                columns: table => new
-                {
-                    ResourceId = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    Type = table.Column<string>(type: "text", nullable: false),
-                    Url = table.Column<string>(type: "text", nullable: false),
-                    ProjectTaskId = table.Column<int>(type: "integer", nullable: false),
-                    ProjectId = table.Column<int>(type: "integer", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Resources", x => x.ResourceId);
-                    table.ForeignKey(
-                        name: "FK_Resources_ProjectTasks_ProjectTaskId",
-                        column: x => x.ProjectTaskId,
-                        principalTable: "ProjectTasks",
-                        principalColumn: "ProjectTaskId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Resources_Projects_ProjectId",
-                        column: x => x.ProjectId,
-                        principalTable: "Projects",
-                        principalColumn: "ProjectId");
                 });
 
             migrationBuilder.CreateTable(
                 name: "TimeTrackings",
                 columns: table => new
                 {
-                    TimeTrackingId = table.Column<int>(type: "integer", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     StartTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     EndTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
@@ -287,18 +296,18 @@ namespace PMS.SERVICE.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TimeTrackings", x => x.TimeTrackingId);
+                    table.PrimaryKey("PK_TimeTrackings", x => x.Id);
                     table.ForeignKey(
                         name: "FK_TimeTrackings_ProjectTasks_TaskId",
                         column: x => x.TaskId,
                         principalTable: "ProjectTasks",
-                        principalColumn: "ProjectTaskId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_TimeTrackings_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "UserId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -321,6 +330,16 @@ namespace PMS.SERVICE.Migrations
                 name: "IX_Chats_SenderId",
                 table: "Chats",
                 column: "SenderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Chats_UserId",
+                table: "Chats",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Chats_UserId1",
+                table: "Chats",
+                column: "UserId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Milestones_ProjectId",
@@ -348,9 +367,9 @@ namespace PMS.SERVICE.Migrations
                 column: "ProjectId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProjectTaskUser_AssigneesUserId",
+                name: "IX_ProjectTaskUser_AssigneesId",
                 table: "ProjectTaskUser",
-                column: "AssigneesUserId");
+                column: "AssigneesId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Resources_ProjectId",
@@ -358,14 +377,14 @@ namespace PMS.SERVICE.Migrations
                 column: "ProjectId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Resources_ProjectTaskId",
-                table: "Resources",
-                column: "ProjectTaskId");
+                name: "IX_TeamUser_TeamId",
+                table: "TeamUser",
+                column: "TeamId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TeamUser_UsersUserId",
+                name: "IX_TeamUser_UserId",
                 table: "TeamUser",
-                column: "UsersUserId");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TimeTrackings_TaskId",

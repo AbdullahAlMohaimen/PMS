@@ -24,4 +24,8 @@
     <ProjectReference Include="..\PMS.MODEL\PMS.MODEL.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="NewFolder\" />
+  </ItemGroup>
+
 </Project>

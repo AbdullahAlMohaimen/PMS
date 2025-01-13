@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="PMS.BO.ActivityLog">
+    <Position X="12.25" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAADAAAAAAAgAAAAAAACAAgAAAgAAAAAAEAAAAAAAAQ=</HashCode>
+      <FileName>ActivityLog\ActivityLog.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="User" />
+      <Property Name="Task" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="PMS.BO.Chat" Collapsed="true">
+    <Position X="3.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAACAAAAAAAFAAAAAAAAJAAIAAA=</HashCode>
+      <FileName>Chat\Chat.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PMS.BO.Milestone">
+    <Position X="14.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAgAEAAAAAACAAABAAAAAAAAAEAAAAAAAA=</HashCode>
+      <FileName>Milestone\Milestone.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PMS.BO.Notification" Collapsed="true">
+    <Position X="7" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAADAAAEAAAAAAAAACAAAAgAAAAAAAAAAQAAIAAAAAA=</HashCode>
+      <FileName>Notification\Notification.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PMS.BO.Project" Collapsed="true">
+    <Position X="1.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAEIAAgAAAAAAAABIQiAAAAAAAAEAAAAEAAAAA=</HashCode>
+      <FileName>Project\Project.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PMS.BO.ProjectTask">
+    <Position X="5.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACARAEAAAgAEAEAAAQCAAABAAAAAACACEAAAAAAAA=</HashCode>
+      <FileName>ProjectTask\ProjectTask.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PMS.BO.Resource">
+    <Position X="9.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAQABAAAAAAACQAAAAAAAQA=</HashCode>
+      <FileName>Resource\Resource.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Projects" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="PMS.BO.TeamUser">
+    <Position X="3.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACCCAAAAAAAAAAAAAAAAgCAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Team\TeamUser.cs</FileName>
+      <NewMemberFileName>Team\Team.cs</NewMemberFileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PMS.BO.TimeTracking" Collapsed="true">
+    <Position X="1.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAjAAAAAAACAAAAAAAAAAgAIAggAAAAAEAAAAAAAAA=</HashCode>
+      <FileName>TimeTracking\TimeTracking.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PMS.BO.User">
+    <Position X="7" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAECCRAACCAgAAAAEIAAAAQAAAAAAAAAAAAAAIAAAAA=</HashCode>
+      <FileName>Users\User.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

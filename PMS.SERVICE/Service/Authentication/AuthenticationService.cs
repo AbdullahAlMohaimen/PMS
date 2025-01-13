@@ -29,7 +29,7 @@ namespace PMS.SERVICE
 				new Claim(JwtRegisteredClaimNames.Sub, jwtConfig["Subject"]),
 				new Claim("Email", oUser.Email),
 				new Claim("Name", oUser.Name),
-				new Claim("UserId", oUser.UserId.ToString()),
+				new Claim("Id", oUser.Id.ToString()),
 			};
 			var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtConfig["Key"]));
 			var signIn = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);

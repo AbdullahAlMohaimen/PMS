@@ -12,14 +12,15 @@ namespace PMS.BO
 		public User(){}
 		#endregion
 
-		public int UserId { get; set; }
+		public int Id { get; set; }
 		public string Name { get; set; } = string.Empty;
 		public string Email { get; set; } = string.Empty;
 		public string Role { get; set; } = "Member"; // Admin, Member
 		public string Language { get; set; } = "en";
 
-		// Navigation Properties
-		public ICollection<Team> Teams { get; set; } = new List<Team>();
+        // Navigation Properties
+        public ICollection<TeamUser> TeamUsers { get; set; } = new List<TeamUser>();
+       
 		public ICollection<ProjectTask> AssignedTasks { get; set; } = new List<ProjectTask>();
 		public ICollection<Notification> Notifications { get; set; } = new List<Notification>();
 		public ICollection<ActivityLog> ActivityLogs { get; set; } = new List<ActivityLog>();

@@ -20,7 +20,7 @@ namespace PMS.SERVICE
         }
         public List<Team> getTeam(int userId)
         {
-           return _context.Teams.Where(x=>x.TeamId==userId).ToList();
+           return _context.Teams.Where(x=>x.Id==userId).ToList();
         }
 
         public int Save(Team item)
@@ -30,7 +30,7 @@ namespace PMS.SERVICE
                 
                 _context.Teams.Add(item);
                 _context.SaveChangesAsync();
-                return item.TeamId;
+                return item.Id;
             }
             catch (Exception e)
             {

@@ -11,7 +11,7 @@ namespace PMS.BO
 		#region Constractor
 		public ActivityLog() { }
 		#endregion
-		public int ActivityLogId { get; set; }
+		public int Id { get; set; }
 		public string Action { get; set; } = string.Empty; // Example: "Task Updated", "Status Changed"
 		public string Description { get; set; } = string.Empty;
 		public DateTime Timestamp { get; set; }
