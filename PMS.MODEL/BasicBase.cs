@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace PMS.MODEL
 {
-    internal class BasicBase
+    public class BasicBase
     {
         public int CreatedBy { get; set; }
         public DateTime CreationDate { get; set; }
         public int? ModifiedBy { get; set; }
         public DateTime? ModifiedDate { get; set; }
-        //public EnumStatus status { get; set; }
+       // public EnumStatus status { get; set; }
     }
 }

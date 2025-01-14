@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PMS.MODEL;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PMS.BO
 {
-	public class Team
+	public class Team: BasicBase
     {
 		#region Constractor
 		public Team() { }
