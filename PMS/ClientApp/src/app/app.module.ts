@@ -86,14 +86,26 @@ export const MSALInterceptorConfig: MsalInterceptorConfiguration = {
 
 import { AuthenticationService } from './PMS_SERVICE/Authentication_S/authentication.service';
 import { NotificationService } from './PMS_SERVICE/Notification_S/notification.service';
-import { MainComponent } from './PMS_COMPONENT/Main/main.component';
+import { MainComponent } from './PMS_COMPONENT/PMS_MAIN/Main/main.component';
 import { LoadingModule } from './PMS_COMPONENT/Loading/loading.module';
 import { LoadingService } from './PMS_COMPONENT/Loading/loading.service';
+import { TopbarComponent } from './PMS_COMPONENT/PMS_MAIN/topbar/topbar.component';
+import { FooterComponent } from './PMS_COMPONENT/PMS_MAIN/footer/footer.component';
+import { MenuComponent } from './PMS_COMPONENT/PMS_MAIN/menu/menu.component';
+import { LoginComponent } from './PMS_COMPONENT/PMS_LOGIN/login/login.component';
+import { SignupComponent } from './PMS_COMPONENT/PMS_LOGIN/signup/signup.component';
+import { ErrorComponent } from './PMS_COMPONENT/error/error.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MainComponent
+    MainComponent,
+    TopbarComponent,
+    FooterComponent,
+    MenuComponent,
+    LoginComponent,
+    SignupComponent,
+    ErrorComponent,
   ],
   imports: [
     BrowserModule,

@@ -33,7 +33,6 @@
   <ItemGroup>
     <ProjectReference Include="..\PMS.BO\PMS.BO.csproj" />
     <ProjectReference Include="..\PMS.GLOBAL\PMS.GLOBAL.csproj" />
-    <ProjectReference Include="..\PMS.MODEL\PMS.MODEL.csproj" />
     <ProjectReference Include="..\PMS.SERVICE\PMS.SERVICE.csproj" />
   </ItemGroup>
 

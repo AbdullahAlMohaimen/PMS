@@ -7,7 +7,8 @@ namespace PMS
     {
         public static void ALLServiceCollection(this IServiceCollection oServices)
         {
-            oServices.AddScoped<ITeamService, TeamService>();
-        }
+			oServices.AddScoped<ITeamService, TeamService>();
+			oServices.AddScoped<IUserService, UsersService>();
+		}
     }
 }

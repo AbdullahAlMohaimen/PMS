@@ -1,0 +1,40 @@
+<div class="starsec"></div>
+<div class="starthird"></div>
+<div class="starfourth"></div>
+<div class="starfifth"></div>
+<section class="user" @slideInAnimation>
+  <div class="user_options-container">
+    <div class="user_options-text">
+      <div class="user_options-unregistered">
+        <h2 style="color: #03353f;font-weight: bold;">Don't have an account?</h2>
+        <p class="user_unregistered-text">Take your productivity to the next level! Sign up now and start managing your tasks like a pro.</p>
+        
+        <p-button (click)="signup()" label="Sign Up" icon="pi pi-sign-in" [raised]="true"></p-button>
+      </div>
+    </div>
+    
+    <div class="user_options-forms" id="user_options-forms">
+      <div class="user_forms-login">
+        <h2 style="color: #03353f;font-weight: bold;">Sign In</h2>
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+          <div class="login-box">
+            <div class="input-box">
+                <input [(ngModel)]="oLoginRequest.email" autocomplete="off" type="email" placeholder="email" pInputText formControlName="email" class="custom-placeholder" style="color: #03353f;"/>
+            </div>
+            <div class="input-box">
+                <input [(ngModel)]="oLoginRequest.password" autocomplete="off" type="password" placeholder="Password" pInputText formControlName="password" class="ui-inputtext ui-widget  login-cotrol custom-placeholder" style="color: #03353f;"/>
+            </div>
+          </div>
+          <div class="grid" style="white-space: nowrap;">
+              <div class="col-12 md:col-12 lg:col-6" style="margin: auto;" align="middle">
+                  <a (click)="forgetPasswordClick()" class="forgetPassword">Forget Password?</a>
+              </div>
+              <div class="col-12 md:col-12 lg:col-6" align="middle">
+                  <button class="slide3 oneButton">Sign In</button>
+              </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

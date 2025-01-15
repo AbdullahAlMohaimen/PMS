@@ -23,7 +23,7 @@ export class ApiService {
     const baseHRef = document.querySelector('base')?.getAttribute('href');
     if(baseHRef === "/"){
       //this.BASE_URL = "http://localhost:44307/api";
-      this.BASE_URL = "http://localhost:44306/api";
+      this.BASE_URL = "https://localhost:44306/api";
     }
     else{
       this.BASE_URL = baseHRef + 'api';

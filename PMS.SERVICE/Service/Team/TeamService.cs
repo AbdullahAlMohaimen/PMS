@@ -13,14 +13,17 @@ namespace PMS.SERVICE
     public class TeamService : ITeamService
     {
         private readonly DataContext _context;
-      
-        public TeamService(DataContext context)
+
+		public TeamService()
+		{
+		}
+		public TeamService(DataContext context)
         {
             _context = context;
         }
         public List<Team> getTeam(int userId)
         {
-           return _context.Teams.Where(x=>x.Id==userId).ToList();
+           return _context.Teams.Where(x=>x.Id == userId).ToList();
         }
 
         public int Save(Team item)
@@ -30,6 +33,7 @@ namespace PMS.SERVICE
                 
                 _context.Teams.Add(item);
                 _context.SaveChangesAsync();
+                _context.Update(item);
                 return item.Id;
             }
             catch (Exception e)

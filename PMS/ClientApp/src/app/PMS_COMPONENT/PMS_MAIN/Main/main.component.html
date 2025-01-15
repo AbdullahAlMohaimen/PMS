@@ -1,0 +1,28 @@
+<div class="layout-menu-top">
+    <div class="div1"></div>
+    <div class="div2"></div>
+    <div class="div3"></div>
+    <div class="div4"></div>
+    <div class="div5"></div>
+    <div class="div6"></div>
+    <div class="div7"></div>
+    <div class="div8"></div>
+    <div class="div9"></div>
+    <div class="div10"></div>
+</div> 
+
+<div class="custom-layout-wrapper">
+    <app-topbar></app-topbar>
+    <div class="custom-layout-main">
+        <div class="custom-layout-menu" *ngIf="apiService.IsAdmin === true" [ngClass]="{ 'active': isMenuVisible }">
+            <app-menu *ngIf="apiService.IsAdmin === true"></app-menu>
+        </div>
+        <div class="custom-layout-content" 
+            [ngClass]="{ 'full-widthA': !isMenuVisible,
+            'full-widthB': apiService.IsAdmin === false }">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+    <app-footer></app-footer>
+    <div class="custom-layout-mask"></div>
+</div>

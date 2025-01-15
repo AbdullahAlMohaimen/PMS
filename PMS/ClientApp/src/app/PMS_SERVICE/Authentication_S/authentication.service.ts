@@ -4,10 +4,9 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { map } from 'rxjs/operators';
 import { ApiService } from '../../api.service';
 import { Router } from '@angular/router';
+import { Subject } from 'rxjs';
+import { LoginRequest } from '../../PMS_MODEL/Authentication/login-request';
 
-import { MsalService } from '@azure/msal-angular';
-import { AuthenticationResult, AccountInfo } from '@azure/msal-browser';
-import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -15,9 +14,31 @@ import { BehaviorSubject, Observable } from 'rxjs';
 export class AuthenticationService {
   constructor(private http: HttpClient,
     public apiService: ApiService,
-    private router: Router, 
-    private msalService: MsalService) { 
+    private router: Router) { 
   }
   private serviceName = "/Authentication/";
   jwtHelper = new JwtHelperService();
+
+  Login(loginRequest : LoginRequest){
+    return this.http.post(this.apiService.BASE_URL + this.serviceName + 'login', loginRequest).pipe(
+      map((response:any) => {
+        const oUser = response; 
+        if(oUser){
+          localStorage.setItem('token', oUser);
+          ApiService.AuthenticationToken = oUser;
+        }
+    }));
+  }
+  IsLoggedIn() {
+    const token = localStorage.getItem('token');
+    ApiService.AuthenticationToken = token ? token : '';
+    return !this.jwtHelper.isTokenExpired(token);
+  }
+  UserLogOut(){
+    return this.apiService.HttpGet(this.serviceName + 'LogOut');
+  }
+  Logout() {
+    localStorage.removeItem('token');
+    this.router.navigate(['/pms-login']);
+  }
 }

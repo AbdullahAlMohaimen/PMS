@@ -21,11 +21,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PMS.GLOBAL\PMS.GLOBAL.csproj" />
-    <ProjectReference Include="..\PMS.MODEL\PMS.MODEL.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="NewFolder\" />
   </ItemGroup>
 
 </Project>

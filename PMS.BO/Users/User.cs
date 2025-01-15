@@ -28,4 +28,11 @@ namespace PMS.BO
 		public ICollection<Chat> ChatsSent { get; set; } = new List<Chat>();
 		public ICollection<Chat> ChatsReceived { get; set; } = new List<Chat>();
 	}
+
+	public interface IUserService
+	{
+		public int Save(User item);
+		public User GetByEmail(string email);
+		public User FindUser(LoginRequest item);
+	}
 }
