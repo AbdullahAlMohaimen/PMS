@@ -15,8 +15,8 @@ namespace PMS.BO
 		public int Id { get; set; }
 		public string Name { get; set; } = string.Empty;
 		public string Email { get; set; } = string.Empty;
-        public string Password { get; set; }
-        public string Solt { get; set; }
+		public string Password { get; set; } = "";
+		public string Solt { get; set; } = "";
 		public EnumLoginType LoginType { get; set; } = EnumLoginType.Normal;
        	public string Language { get; set; } = "English";
 
@@ -33,8 +33,8 @@ namespace PMS.BO
 
 	public interface IUserService
 	{
-		public int Save(User item);
-		public User GetByEmail(string email);
-		public User FindUser(LoginRequest item);
+		public Task<int> Save(User item);
+		public Task<User> GetByEmail(string email);
+		public Task<User> FindUser(LoginRequest item);
 	}
 }

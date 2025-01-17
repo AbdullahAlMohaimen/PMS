@@ -1,5 +1,6 @@
 ﻿using Microsoft.ApplicationInsights.Extensibility.Implementation;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using PMS.BO;
 using System;
 using System.Collections.Generic;
@@ -9,53 +10,35 @@ using System.Threading.Tasks;
 
 namespace PMS.SERVICE
 {
-	public class UsersService : IUserService
-	{
-		private readonly DataContext _context;
-		public UsersService(DataContext context)
-		{
-			_context = context;
-		}
-		public int Save(User item)
-		{
-			try
-			{
-				_context.Users.Add(item);
-				_context.SaveChangesAsync();
-				return item.Id;
-			}
-			catch (Exception e)
-			{
-				throw e.InnerException;
-			}
-		}
 
-		public User GetByEmail(string email)
-		{
-			User oUser = null;
-			try
-			{
-				oUser = _context.Users.FirstOrDefault(x => x.Email == email);
-			}
-			catch (Exception e)
-			{
-				throw e.InnerException;
-			}
-			return oUser;
-		}
+    public class UsersService : IUserService
+    {
+        private readonly IDbContextFactory<DataContext> _contextFactory;
 
-		public User FindUser(LoginRequest item)
-		{
-			User oUser = null;
-			try
-			{
-				oUser = _context.Users.FirstOrDefault(x => x.Email == item.Email);
-			}
-			catch (Exception e)
-			{
-				throw e.InnerException;
-			}
-			return oUser;
-		}
-	}
+        public UsersService(IDbContextFactory<DataContext> contextFactory)
+        {
+            _contextFactory = contextFactory;
+        }
+
+        public async Task<int> Save(User item)
+        {
+            using var context = _contextFactory.CreateDbContext();
+            context.Users.Add(item);
+            await context.SaveChangesAsync();
+            return item.Id;
+        }
+
+        public async Task<User> GetByEmail(string email)
+        {
+            using var context = _contextFactory.CreateDbContext();
+            return await context.Users.FirstOrDefaultAsync(x => x.Email == email);
+        }
+
+        public async Task<User> FindUser(LoginRequest item)
+        {
+            using var context = _contextFactory.CreateDbContext();
+            return await context.Users.FirstOrDefaultAsync(x => x.Email == item.Email);
+        }
+    }
+   
 }

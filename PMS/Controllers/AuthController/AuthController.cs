@@ -44,7 +44,7 @@ namespace PMS.Controllers
 		#region LOGIN
 		[HttpPost("login")]
 		[AllowAnonymous]
-		public IActionResult LOGIN(PMS.BO.LoginRequest oLoginRequest)
+		public async Task<IActionResult> LOGIN(PMS.BO.LoginRequest oLoginRequest)
 		{
 			PMS.BO.User oUser = new PMS.BO.User();
 			string json = "";
@@ -52,14 +52,14 @@ namespace PMS.Controllers
 			{
 				if (oLoginRequest.IsForSignIN == true)
 				{
-					oUser = _userService.GetByEmail(oLoginRequest.Email);
+					oUser = await _userService.GetByEmail(oLoginRequest.Email);
 					if (oUser == null)
 					{
 						throw new Exception("No account found for this email. \nDon't worry! You can easily create an account by signing up.");
 					}
 					else
 					{
-						oUser = _userService.FindUser(oLoginRequest);
+						oUser = await _userService.FindUser(oLoginRequest);
 						if (oUser == null)
 						{
 							throw new Exception("Wrong Password!\nPlease enter correct password");
@@ -68,7 +68,7 @@ namespace PMS.Controllers
 				}
 				else
 				{
-					oUser = _userService.GetByEmail(oLoginRequest.Email);
+					oUser = await _userService.GetByEmail(oLoginRequest.Email);
 					if (oUser != null)
 					{
 						throw new Exception("Oops! The email you entered is already registered. Please try logging in or use a different email to sign up.");
@@ -76,8 +76,8 @@ namespace PMS.Controllers
 					PMS.BO.User savedUser = new PMS.BO.User();
 					savedUser.Name = "";
 					savedUser.Email = oLoginRequest.Email;
-					_userService.Save(savedUser);
-					oUser = _userService.GetByEmail(oLoginRequest.Email);
+                    await _userService.Save(savedUser);
+					oUser = await _userService.GetByEmail(oLoginRequest.Email);
 					if (oUser == null)
 					{
 						throw new Exception("Something proglem, please try again later.");
