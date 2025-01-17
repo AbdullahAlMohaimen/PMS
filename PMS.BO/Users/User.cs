@@ -15,8 +15,10 @@ namespace PMS.BO
 		public int Id { get; set; }
 		public string Name { get; set; } = string.Empty;
 		public string Email { get; set; } = string.Empty;
-		public string Role { get; set; } = "Member"; // Admin, Member
-		public string Language { get; set; } = "en";
+        public string Password { get; set; }
+        public string Solt { get; set; }
+		public EnumLoginType LoginType { get; set; } = EnumLoginType.Normal;
+       	public string Language { get; set; } = "English";
 
         // Navigation Properties
         public ICollection<TeamUser> TeamUsers { get; set; } = new List<TeamUser>();

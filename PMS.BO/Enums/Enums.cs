@@ -19,7 +19,16 @@ namespace PMS.BO
         Inactive = 2
         
     }
+    public enum EnumLoginType
+    {
+        Normal = 1,
+        Google = 2,
+        Microsoft=3,
+        Github=4
+
+    }
     
+
 }
 
 

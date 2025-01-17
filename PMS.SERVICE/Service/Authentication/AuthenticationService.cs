@@ -29,7 +29,6 @@ namespace PMS.SERVICE
 				new Claim(JwtRegisteredClaimNames.Sub, jwtConfig["Subject"]),
 				new Claim("Email", oUser.Email),
 				new Claim("Name", oUser.Name),
-				new Claim("Role", oUser.Role),
 				new Claim("Language", oUser.Language),
 				new Claim("Id", oUser.Id.ToString()),
 			};

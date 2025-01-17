@@ -54,7 +54,8 @@ export class SignupComponent implements OnInit{
     this.createForms();
     this.oLoginRequest = new LoginRequest();
   }
-  onSubmit(){
+  onSubmit() {
+    debugger;
     if(this.oLoginRequest.email === null || this.oLoginRequest.email === undefined || this.oLoginRequest.email === ""){
       this.notification.Warning("Please enter your EMAIL!","Warning");
       return;
