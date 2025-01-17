@@ -9,9 +9,7 @@ import { ApiService } from '../../../api.service';
 })
 export class MainComponent {
   constructor(public authService: AuthenticationService,public apiService : ApiService) {
-    if(!this.authService.IsLoggedIn()){
-      this.authService.Logout();
-    }
+    this.authService.Logout();
   }
   isMenuVisible: boolean = false;
 
