@@ -21,11 +21,28 @@ namespace PMS.SERVICE
         {
             _context = context;
         }
-        public List<Team> getTeam(int userId)
+        public List<Team> GetTeamByUser(int userId)
         {
-           return _context.Teams.Where(x=>x.Id == userId).ToList();
+            try
+            {
+                return _context.Teams.Where(x => x.CreatedBy == userId).ToList();
+            }
+            catch (Exception e)
+            {
+                throw e.InnerException;
+            }
         }
-
+        public List<Team> GetTeam(int Id)
+        {
+            try
+            {
+                return _context.Teams.Where(x => x.Id == Id).ToList();
+            }
+            catch (Exception e)
+            {
+                throw e.InnerException;
+            }
+        }
         public int Save(Team item)
         {
             try

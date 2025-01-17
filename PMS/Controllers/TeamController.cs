@@ -24,7 +24,7 @@ namespace PMS.Controllers
             List<Team> items = new List<Team>();
             try
             {
-                items = _service.getTeam(userId);
+                items = _service.GetTeam(userId);
             }
             catch (Exception e)
             {
