@@ -45,45 +45,6 @@ import { RippleModule } from 'primeng/ripple';
 import { MsalGuard } from '@azure/msal-angular';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
-//#region FOR S_S_O
-import {
-  MsalModule,
-  MsalInterceptor,
-  MsalService,
-  MsalGuardConfiguration,
-  MSAL_GUARD_CONFIG,
-  MSAL_INSTANCE,
-  MSAL_INTERCEPTOR_CONFIG,
-  MsalInterceptorConfiguration,
-  MsalRedirectComponent,
-} from '@azure/msal-angular';
-import { PublicClientApplication, InteractionType } from '@azure/msal-browser';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
-export const MSALInstance = new PublicClientApplication({
-  auth: {
-      clientId: '30d68a3f-aac0-4ac2-9876-79b1af89aff4',
-      authority: 'https://login.microsoftonline.com/0ccbbd58-9cd0-415c-a100-c6ac318a5a14',
-      redirectUri: 'http://localhost:4200',
-  },
-  cache: {
-      cacheLocation: 'localStorage',
-      storeAuthStateInCookie: false,
-  },
-});
-export const MSALGuardConfig: MsalGuardConfiguration = {
-  interactionType: InteractionType.Redirect,
-  authRequest: {
-      scopes: ['User.Read'],
-  },
-};
-export const MSALInterceptorConfig: MsalInterceptorConfiguration = {
-  interactionType: InteractionType.Redirect,
-  protectedResourceMap: new Map([
-      ['https://graph.microsoft.com/v1.0/me', ['User.Read']],
-  ]),
-};
-//#endregion
-
 import { AuthenticationService } from './PMS_SERVICE/Authentication_S/authentication.service';
 import { NotificationService } from './PMS_SERVICE/Notification_S/notification.service';
 import { MainComponent } from './PMS_COMPONENT/PMS_MAIN/Main/main.component';
@@ -95,6 +56,10 @@ import { MenuComponent } from './PMS_COMPONENT/PMS_MAIN/menu/menu.component';
 import { LoginComponent } from './PMS_COMPONENT/PMS_LOGIN/login/login.component';
 import { SignupComponent } from './PMS_COMPONENT/PMS_LOGIN/signup/signup.component';
 import { ErrorComponent } from './PMS_COMPONENT/error/error.component';
+import { PMSMicrosoftModule } from './PMS_AUTH_MECHANISM/PMS_Microsoft/pmsmicrosoft.module';
+import { PMSGithubModule } from './PMS_AUTH_MECHANISM/PMS_Github/pmsgithub.module';
+import { GoogleSigninButtonModule } from '@abacritt/angularx-social-login';
+import { PMSGoogleModule } from './PMS_AUTH_MECHANISM/PMS_Google/pmsgoogle.module';
 
 @NgModule({
   declarations: [
@@ -154,20 +119,17 @@ import { ErrorComponent } from './PMS_COMPONENT/error/error.component';
       positionClass: 'toast-top-center',
       preventDuplicates: false,
     }),
-    MsalModule.forRoot(MSALInstance, MSALGuardConfig, MSALInterceptorConfig),
+    PMSMicrosoftModule,
+    PMSGoogleModule,
+    GoogleSigninButtonModule
   ],
-  providers: [{
-      provide: HTTP_INTERCEPTORS,
-      useClass: MsalInterceptor,
-      multi: true,
-    },
-    MsalService,
+  providers: [
     DatePipe,
     AuthenticationService,
     NotificationService,
     LoadingService
   ],
-  bootstrap: [AppComponent, MsalRedirectComponent]
+  bootstrap: [AppComponent]
 })
 export class AppModule {
   constructor(public authService: AuthenticationService){

@@ -14,6 +14,10 @@ namespace PMS.BO
 		public string Email { get; set; }
 		#endregion
 
+		#region UserName : String 
+		public string UserName { get; set; }
+		#endregion
+
 		#region Password : String 
 		public string Password { get; set; }
 		#endregion
@@ -24,6 +28,10 @@ namespace PMS.BO
 
 		#region IsForSignIN : bool 
 		public bool IsForSignIN { get; set; }
+		#endregion
+
+		#region AuthorityType : bool 
+		public EnumLoginType AuthorityType { get; set; } = EnumLoginType.Normal;
 		#endregion
 
 		#endregion

@@ -15,8 +15,20 @@
     
     <div class="user_options-forms" id="user_options-forms">
       <div class="user_forms-login">
-        <h2 style="color: #03353f;font-weight: bold;">Sign In</h2>
-        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <h2 style="color: #03353f;font-weight: bold;text-align: center;">Sign In</h2>
+        <fieldset style="border: none;">
+          <div class="grid">
+            <div class="col-6" align="right">
+              <asl-google-signin-button type='icon' shape="pill" size='large'></asl-google-signin-button>
+            </div>
+            <div class="col-6">
+              <button class="microsoft-icon-button" (click)="login()">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg" alt="Microsoft Logo">
+              </button>
+            </div>
+          </div>
+        </fieldset>
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" style="margin-top: -20px;">
           <div class="login-box">
             <div class="input-box">
                 <input [(ngModel)]="oLoginRequest.email" autocomplete="off" type="email" placeholder="email" pInputText formControlName="email" class="custom-placeholder" style="color: #03353f;"/>

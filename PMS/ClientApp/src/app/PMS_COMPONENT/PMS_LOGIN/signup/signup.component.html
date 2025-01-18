@@ -15,11 +15,14 @@
       
       <div class="user_options-forms" id="user_options-forms">
         <div class="user_forms-login">
-          <h2 style="color: #03353f;font-weight: bold;">Sign Up</h2>
-          <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+          <h2 style="color: #03353f;font-weight: bold;text-align: center;">Sign Up</h2>
+          <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" style="margin-top: -20px;">
             <div class="login-box">
               <div class="input-box">
-                  <input [(ngModel)]="oLoginRequest.email" autocomplete="off" type="text" placeholder="email" pInputText formControlName="email" class="custom-placeholder" style="color: #03353f;"/>
+                <input [(ngModel)]="oLoginRequest.userName" autocomplete="off" type="text" placeholder="User Name" pInputText formControlName="userName" class="custom-placeholder" style="color: #03353f;"/>
+            </div>
+              <div class="input-box">
+                  <input [(ngModel)]="oLoginRequest.email" autocomplete="off" type="email" placeholder="Email" pInputText formControlName="email" class="custom-placeholder" style="color: #03353f;"/>
               </div>
               <div class="input-box">
                   <input [(ngModel)]="oLoginRequest.password" autocomplete="off" type="password" placeholder="Password" pInputText formControlName="password" class="ui-inputtext ui-widget  login-cotrol custom-placeholder" style="color: #03353f;"/>

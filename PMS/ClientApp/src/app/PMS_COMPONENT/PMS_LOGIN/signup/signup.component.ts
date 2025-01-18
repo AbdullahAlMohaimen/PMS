@@ -45,9 +45,11 @@ export class SignupComponent implements OnInit{
   oLoginRequest : LoginRequest = new LoginRequest();
   createForms(){
     this.loginForm = this.formBuilder.group({
+      userName: ['', Validators.required],
       email: ['', Validators.required],
       password: ['', Validators.required],
-      confirmPassword: ['', Validators.required]
+      confirmPassword: ['', Validators.required],
+      
     });
   }
   ngOnInit(){

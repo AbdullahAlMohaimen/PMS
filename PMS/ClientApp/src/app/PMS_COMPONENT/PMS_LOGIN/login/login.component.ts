@@ -14,6 +14,13 @@ import { LoadingService } from '../../Loading/loading.service';
 import { LoginRequest } from '../../../PMS_MODEL/Authentication/login-request';
 import { trigger, style, animate, transition } from '@angular/animations';
 
+import { PMSMicrosoftService } from '../../../PMS_AUTH_MECHANISM/PMS_Microsoft/pmsmicrosoft.service';
+import { Subscription } from 'rxjs';
+import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
+import { GoogleLoginProvider } from "@abacritt/angularx-social-login";
+import { PMSGoogleService } from '../../../PMS_AUTH_MECHANISM/PMS_Google/pmsgoogle.service';
+import { MsalService } from '@azure/msal-angular';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -31,21 +38,51 @@ export class LoginComponent implements OnInit{
   //#region constructor
   constructor(private formBuilder: FormBuilder,
     private route: ActivatedRoute,
-    private router: Router,
+    private router: Router,private msalService: MsalService,
     private authenticationService : AuthenticationService,
     private apiService : ApiService,
     private authGuard : AUTHGUARD,
     private httpClient : HttpClient,
     private notification : NotificationService,
-    private loading : LoadingService){
+    private pmsMicrosoftService : PMSMicrosoftService,
+    private pmsGoogleService : PMSGoogleService,
+    private loading : LoadingService,private authServiced: SocialAuthService ){
   }
   //#endregion
 
   loginForm! : FormGroup;
   oLoginRequest : LoginRequest = new LoginRequest();
+  authSubscription!: Subscription;
+  loginRequest : LoginRequest | undefined;
   ngOnInit(){
     this.createForms();
     this.oLoginRequest = new LoginRequest();
+
+    //#region FOR GOOGLE
+    this.authServiced.refreshAuthToken(GoogleLoginProvider.PROVIDER_ID);
+    this.authSubscription = this.authServiced.authState.subscribe((user) => {
+      if(user !== null){
+        localStorage.setItem('lms_google_user', JSON.stringify(user));
+        
+      }
+      else{
+        localStorage.removeItem('lms_google_user');
+      }
+    });
+    //#endregion
+
+    //#region FOR MICROSOFT
+    this.pmsMicrosoftService.RedirectResponse_SSO();
+    this.pmsMicrosoftService.GETUserProfile_SSO().subscribe((oRequest: LoginRequest) => {
+      if (oRequest) {
+        this.loginRequest = oRequest;
+      }
+      if(this.loginRequest !== undefined && this.loginRequest.email !== ""){
+        localStorage.removeItem('lms_google_user');
+        ;
+      }
+    });
+    //#endregion
   }
   createForms(){
     this.loginForm = this.formBuilder.group({
@@ -89,5 +126,12 @@ export class LoginComponent implements OnInit{
   }
   signup(){
     this.router.navigate(['/pms-signup']);
+  }
+
+  login() {
+    this.msalService.loginRedirect();
+  }
+  logout() {
+    this.msalService.logoutRedirect();
   }
 }
