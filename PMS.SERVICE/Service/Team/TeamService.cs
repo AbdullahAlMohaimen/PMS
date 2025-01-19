@@ -12,45 +12,44 @@ namespace PMS.SERVICE
 {
     public class TeamService : ITeamService
     {
-        private readonly DataContext _context;
+        private readonly IDbContextFactory<DataContext> _contextFactory;
 
-		public TeamService()
-		{
-		}
-		public TeamService(DataContext context)
+        public TeamService(IDbContextFactory<DataContext> contextFactory)
         {
-            _context = context;
+            _contextFactory = contextFactory;
         }
-        public List<Team> GetTeamByUser(int userId)
+        public async Task<List<Team>> GetTeamByUser(int userId)
         {
             try
             {
-                return _context.Teams.Where(x => x.CreatedBy == userId).ToList();
+                using var context = _contextFactory.CreateDbContext();
+                return await context.Teams.Where(x => x.CreatedBy == userId).ToListAsync();
             }
             catch (Exception e)
             {
                 throw e.InnerException;
             }
         }
-        public List<Team> GetTeam(int Id)
+        public async Task<List<Team>> GetTeam(int Id)
         {
             try
             {
-                return _context.Teams.Where(x => x.Id == Id).ToList();
+                using var context = _contextFactory.CreateDbContext();
+                return await context.Teams.Where(x => x.Id == Id).ToListAsync();
             }
             catch (Exception e)
             {
                 throw e.InnerException;
             }
         }
-        public int Save(Team item)
+        public async Task<int> Save(Team item)
         {
             try
             {
-                
-                _context.Teams.Add(item);
-                _context.SaveChangesAsync();
-                _context.Update(item);
+                using var context = _contextFactory.CreateDbContext();
+                context.Teams.Add(item);
+                await context.SaveChangesAsync();
+                //_contextFactory.Update(item);
                 return item.Id;
             }
             catch (Exception e)
