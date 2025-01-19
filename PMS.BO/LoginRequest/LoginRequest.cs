@@ -26,11 +26,15 @@ namespace PMS.BO
 		public string ConfirmPassword { get; set; }
 		#endregion
 
-		#region IsForSignIN : bool 
+		#region IsSSO : bool 
 		public bool IsForSignIN { get; set; }
 		#endregion
 
-		#region AuthorityType : bool 
+		#region IsSSO : bool 
+		public bool IsSSO { get; set; }
+		#endregion
+
+		#region AuthorityType : EnumLoginType 
 		public EnumLoginType AuthorityType { get; set; } = EnumLoginType.Normal;
 		#endregion
 

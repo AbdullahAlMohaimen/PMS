@@ -10,6 +10,21 @@ namespace PMS.BO
 	{
 		#region Constractor
 		public User(){}
+		public User(LoginRequest loginRequest) {
+			Name = loginRequest.UserName;
+			Email = loginRequest.Email;
+			LoginType = loginRequest.AuthorityType;
+			//AuthorizedDate = DateTime.Now;
+			//AuthorizedDate = DateTime.UtcNow;
+			AuthorizedDate = DateTime.Now.ToUniversalTime();
+
+			if (LoginType == EnumLoginType.Normal)
+			{
+				string userPassword = loginRequest.Password;
+				Solt = new AuthPassword().CreateSalt(128);
+				Password = new AuthPassword().GenerateHash(userPassword, Solt);
+			}
+		}
 		#endregion
 
 		public int Id { get; set; }
@@ -19,6 +34,7 @@ namespace PMS.BO
 		public string Solt { get; set; } = "";
 		public EnumLoginType LoginType { get; set; } = EnumLoginType.Normal;
        	public string Language { get; set; } = "English";
+		public DateTime AuthorizedDate { get; set; }
 
         // Navigation Properties
         public ICollection<TeamUser> TeamUsers { get; set; } = new List<TeamUser>();

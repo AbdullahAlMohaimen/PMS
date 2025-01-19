@@ -47,41 +47,69 @@ namespace PMS.Controllers
 		public async Task<IActionResult> LOGIN(PMS.BO.LoginRequest oLoginRequest)
 		{
 			PMS.BO.User oUser = new PMS.BO.User();
+			AuthPassword oAuthPassword = new AuthPassword();
 			string json = "";
 			try
 			{
-				if (oLoginRequest.IsForSignIN == true)
+				if (oLoginRequest.AuthorityType == EnumLoginType.Normal)
 				{
-					oUser = await _userService.GetByEmail(oLoginRequest.Email);
-					if (oUser == null)
+					if (oLoginRequest.IsForSignIN == true)
 					{
-						throw new Exception("No account found for this email. \nDon't worry! You can easily create an account by signing up.");
-					}
-					else
-					{
-						oUser = await _userService.FindUser(oLoginRequest);
-						if (oUser == null)
+						if (oLoginRequest.IsSSO == true)
 						{
-							throw new Exception("Wrong Password!\nPlease enter correct password");
+							oUser = await _userService.GetByEmail(oLoginRequest.Email);
+						}
+						else
+						{
+							oUser = await _userService.GetByEmail(oLoginRequest.Email);
+							if (oUser != null)
+							{
+								if (oUser.Password != "" && oUser.Solt != "")
+								{
+									if (!oAuthPassword.AreEqual(oLoginRequest.Password, oUser.Password, oUser.Solt))
+									{
+										throw new Exception("Wrong Password!\nPlease enter correct password");
+									}
+								}
+								else
+								{
+									throw new Exception("Something proglem, please try again later.");
+								}
+							}
+							else
+							{
+								throw new Exception("No account found for this email. Don't worry! You can easily create an account by signing up.");
+							}
+						}
+					}
+					else if(oLoginRequest.IsForSignIN == false)
+					{
+						oUser = await _userService.GetByEmail(oLoginRequest.Email);
+						if (oUser != null)
+						{
+							throw new Exception("Oops! The email you entered is already registered. Please try logging in or use a different email to sign up.");
+						}
+						else
+						{
+							PMS.BO.User savedUser = new PMS.BO.User(oLoginRequest);
+							await _userService.Save(savedUser);
+							oUser = await _userService.GetByEmail(oLoginRequest.Email);
 						}
 					}
 				}
 				else
 				{
 					oUser = await _userService.GetByEmail(oLoginRequest.Email);
-					if (oUser != null)
+					if(oUser == null)
 					{
-						throw new Exception("Oops! The email you entered is already registered. Please try logging in or use a different email to sign up.");
+						PMS.BO.User savedUser = new PMS.BO.User(oLoginRequest);
+						await _userService.Save(savedUser);
+						oUser = await _userService.GetByEmail(oLoginRequest.Email);
 					}
-					PMS.BO.User savedUser = new PMS.BO.User();
-					savedUser.Name = "";
-					savedUser.Email = oLoginRequest.Email;
-                    await _userService.Save(savedUser);
-					oUser = await _userService.GetByEmail(oLoginRequest.Email);
-					if (oUser == null)
-					{
-						throw new Exception("Something proglem, please try again later.");
-					}
+				}
+				if (oUser == null)
+				{
+					throw new Exception("Something proglem, please try again later.");
 				}
 				string userToken = new AuthenticationService(_configuration).CreateToken(oUser);
 				if (userToken != null)

@@ -49,7 +49,6 @@ export class SignupComponent implements OnInit{
       email: ['', Validators.required],
       password: ['', Validators.required],
       confirmPassword: ['', Validators.required],
-      
     });
   }
   ngOnInit(){
@@ -57,7 +56,10 @@ export class SignupComponent implements OnInit{
     this.oLoginRequest = new LoginRequest();
   }
   onSubmit() {
-    debugger;
+    if(this.oLoginRequest.userName === null || this.oLoginRequest.userName === undefined || this.oLoginRequest.userName === ""){
+      this.notification.Warning("Please enter your User Name!","Warning");
+      return;
+    }
     if(this.oLoginRequest.email === null || this.oLoginRequest.email === undefined || this.oLoginRequest.email === ""){
       this.notification.Warning("Please enter your EMAIL!","Warning");
       return;
@@ -74,12 +76,30 @@ export class SignupComponent implements OnInit{
       this.notification.Warning("Uh-oh! Your passwords don’t match. Please double-check and try again.","Warning");
       return;
     }
+    debugger;
     this.loading.IsLoginStart = true;
     this.oLoginRequest.isForSignIN = false;
+    this.oLoginRequest.isSSO = false;
+    localStorage.removeItem('pms_google_user');
+    localStorage.removeItem('pms_microsoft_user');
+    localStorage.removeItem('pms_normal_user');
+    const oLoginRequestForStore : LoginRequest = new LoginRequest();
+    if(this.oLoginRequest !== undefined && this.oLoginRequest.email !== ""){
+      oLoginRequestForStore.userName = this.oLoginRequest.userName;
+      oLoginRequestForStore.email = this.oLoginRequest.email;
+      oLoginRequestForStore.password = "";
+      oLoginRequestForStore.confirmPassword = "";
+      oLoginRequestForStore.isForSignIN = true;
+      oLoginRequestForStore.isSSO = true;
+    }
+    localStorage.setItem('pms_normal_user', JSON.stringify(oLoginRequestForStore));
     this.authenticationService.Login(this.oLoginRequest).subscribe(
       (resp: any) => {
       },
       (err: any) => {
+        localStorage.removeItem('pms_google_user');
+        localStorage.removeItem('pms_microsoft_user');
+        localStorage.removeItem('pms_normal_user');
         this.loading.IsLoginStart = false;
         this.notification.Error(err);
         this.notification.Error(err.error.message);
@@ -91,7 +111,7 @@ export class SignupComponent implements OnInit{
   }
   LOGIN(){
     const jwtHelper = new JwtHelperService();
-    const currentUser = jwtHelper.decodeToken(localStorage.getItem('token') as any);
+    const currentUser = jwtHelper.decodeToken(localStorage.getItem('pms_token') as any);
     if(currentUser !== null){
       this.router.navigate(['/pms-dashboard/dashboard']);
     }

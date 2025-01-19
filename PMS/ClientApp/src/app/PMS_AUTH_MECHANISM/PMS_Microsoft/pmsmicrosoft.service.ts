@@ -30,10 +30,12 @@ export class PMSMicrosoftService {
     this.msalService.handleRedirectObservable().subscribe({next: (response: AuthenticationResult | null) => {
       if (response) {
         localStorage.removeItem('pms_google_user');
+        localStorage.removeItem('pms_microsoft_user');
         this.msalService.instance.setActiveAccount(response.account);
         const loginRequest = new LoginRequest();
         loginRequest.populateFromSSOForMicrosoft(response.account);
         this.SETUserProfile_SSO(loginRequest);
+        localStorage.setItem('pms_microsoft_user', JSON.stringify(response.account));
       }
     },
     error: (error) => {
@@ -43,10 +45,12 @@ export class PMSMicrosoftService {
     const accounts = this.msalService.instance.getAllAccounts();
     if (accounts.length > 0) {
       localStorage.removeItem('pms_google_user');
+      localStorage.removeItem('pms_microsoft_user');
       this.msalService.instance.setActiveAccount(accounts[0]);
       const loginRequest = new LoginRequest();
       loginRequest.populateFromSSOForMicrosoft(accounts[0]);
       this.SETUserProfile_SSO(loginRequest);
+      localStorage.setItem('pms_microsoft_user', JSON.stringify(accounts[0]));
     }
   }
   private SETUserProfile_SSO(profile: LoginRequest): void {

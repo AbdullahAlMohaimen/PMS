@@ -6,6 +6,7 @@ export class LoginRequest {
     password: string = '';
     confirmPassword: string = '';
     isForSignIN : boolean = true;
+	isSSO : boolean = false;
     authorityType?: EnumLoginType = EnumLoginType.Normal;
 
     populateFromSSOForMicrosoft(account: any): void {

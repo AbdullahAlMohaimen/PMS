@@ -54,51 +54,87 @@ export class LoginComponent implements OnInit{
   oLoginRequest : LoginRequest = new LoginRequest();
   authSubscription!: Subscription;
   loginRequest : LoginRequest | undefined;
+  isShow : boolean = true;
   ngOnInit(){
     this.createForms();
+    debugger;
     this.oLoginRequest = new LoginRequest();
-
+    if(this.authenticationService.ISAlreadySSOLogin() === "NoLogin"){
+      this.isShow = true;
+    }
+    else{
+      this.isShow = false;
+    }
     //#region FOR GOOGLE
-    this.googleAuthService.refreshAuthToken(GoogleLoginProvider.PROVIDER_ID);
-    this.authSubscription = this.googleAuthService.authState.subscribe((user) => {
-      debugger;
-      if(user !== null){
-        localStorage.setItem('pms_google_user', JSON.stringify(user));
-      }
-      else{
-        localStorage.removeItem('pms_google_user');
-      }
-      const loginUser : SocialUser = new SocialUser();
-      const storedUser = localStorage.getItem('lms_google_user'); 
-      if(storedUser !== "null" && storedUser !== null){
-        const socialUser : SocialUser = JSON.parse(storedUser);
-        if(socialUser !== null){
-          this.pmsGoogleService.RedirectResponse_SSO(socialUser);
-          this.pmsGoogleService.GETUserProfile_SSO().subscribe((oRequest: LoginRequest) => {
-            if (oRequest) {
-              this.loginRequest = oRequest;
-            }
-            if(this.loginRequest !== undefined && this.loginRequest.email !== ""){
-              this.UserLogin(this.loginRequest);
-            }
-          });
+    const googleStroedUser = localStorage.getItem('pms_google_user');
+    if(googleStroedUser === "null" || googleStroedUser === null){
+      this.googleAuthService.refreshAuthToken(GoogleLoginProvider.PROVIDER_ID);
+      this.authSubscription = this.googleAuthService.authState.subscribe((user) => {
+        if(user !== null){
+          localStorage.removeItem('pms_microsoft_user');
+          localStorage.removeItem('pms_google_user');
+          localStorage.removeItem('pms_normal_user');
+          localStorage.setItem('pms_google_user', JSON.stringify(user));
         }
+        const storedGoogleUser = localStorage.getItem('pms_google_user'); 
+        if(storedGoogleUser !== "null" && storedGoogleUser !== null){
+          const googleUser : SocialUser = JSON.parse(storedGoogleUser);
+          if(googleUser !== null){
+            this.pmsGoogleService.RedirectResponse_SSO(googleUser);
+            this.pmsGoogleService.GETUserProfile_SSO().subscribe((oRequest: LoginRequest) => {
+              if (oRequest) {
+                this.loginRequest = oRequest;
+              }
+              if(this.loginRequest !== undefined && this.loginRequest.email !== ""){
+                this.UserLogin(this.loginRequest);
+              }
+            });
+          }
+        }
+      });
+    }
+    else{
+      const storedGoogleUser : SocialUser = JSON.parse(googleStroedUser);
+      if(storedGoogleUser !== null){
+        this.pmsGoogleService.RedirectResponse_SSO(storedGoogleUser);
+        this.pmsGoogleService.GETUserProfile_SSO().subscribe((oRequest: LoginRequest) => {
+          if (oRequest) {
+            this.loginRequest = oRequest;
+          }
+          if(this.loginRequest !== undefined && this.loginRequest.email !== ""){
+            this.UserLogin(this.loginRequest);
+          }
+        });
       }
-    });
+    }
     //#endregion
 
     //#region FOR MICROSOFT
     this.pmsMicrosoftService.RedirectResponse_SSO();
     this.pmsMicrosoftService.GETUserProfile_SSO().subscribe((oRequest: LoginRequest) => {
-      debugger;
       if (oRequest) {
         this.loginRequest = oRequest;
       }
+      else{
+        this.loginRequest = undefined;
+      }
       if(this.loginRequest !== undefined && this.loginRequest.email !== ""){
         localStorage.removeItem('pms_google_user');
+        localStorage.removeItem('pms_normal_user');
         this.UserLogin(this.loginRequest);
       }
     });
+    //#endregion
+  
+    //#region FOR NORMAL LOGIN
+    debugger;
+    const storedNormalUser = localStorage.getItem('pms_normal_user'); 
+    if(storedNormalUser !== "null" && storedNormalUser !== null){
+      const normalUser : LoginRequest = JSON.parse(storedNormalUser);
+      if(normalUser != null){
+        this.UserLogin(normalUser);
+      }
+    }
     //#endregion
   }
   createForms(){
@@ -116,8 +152,23 @@ export class LoginComponent implements OnInit{
       this.notification.Warning("Please enter your PASSWORD","Warning");
       return;
     }
+    debugger;
     this.oLoginRequest.isForSignIN = true;
-    
+    this.oLoginRequest.isSSO = false;
+    localStorage.removeItem('pms_google_user');
+    localStorage.removeItem('pms_microsoft_user');
+    localStorage.removeItem('pms_normal_user');
+    const oLoginRequestForStore : LoginRequest = new LoginRequest();
+    if(this.oLoginRequest !== undefined && this.oLoginRequest.email !== ""){
+      oLoginRequestForStore.userName = this.oLoginRequest.userName;
+      oLoginRequestForStore.email = this.oLoginRequest.email;
+      oLoginRequestForStore.password = "";
+      oLoginRequestForStore.confirmPassword = "";
+      oLoginRequestForStore.isForSignIN = true;
+      oLoginRequestForStore.isSSO = true;
+    }
+    localStorage.setItem('pms_normal_user', JSON.stringify(oLoginRequestForStore));
+    this.UserLogin(this.oLoginRequest);
   }
   UserLogin(loginRequest : LoginRequest){
     this.loading.IsLoginStart = true;
@@ -125,7 +176,9 @@ export class LoginComponent implements OnInit{
       (resp: any) => {
       },
       (err: any) => {
-        debugger;
+        localStorage.removeItem('pms_google_user');
+        localStorage.removeItem('pms_microsoft_user');
+        localStorage.removeItem('pms_normal_user');
         this.loading.IsLoginStart = false;
         this.notification.Error(err.error.message);
       },

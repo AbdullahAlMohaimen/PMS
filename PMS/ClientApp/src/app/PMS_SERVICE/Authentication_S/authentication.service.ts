@@ -34,6 +34,27 @@ export class AuthenticationService {
     ApiService.AuthenticationToken = token ? token : '';
     return !this.jwtHelper.isTokenExpired(token);
   }
+  ISAlreadySSOLogin():string{
+    const satoreGoogleUser = localStorage.getItem('pms_google_user');
+    const storeMicrosoftUser = localStorage.getItem('pms_microsoft_user');
+    const storeNormalUser = localStorage.getItem('pms_normal_user');
+    if(satoreGoogleUser !== null){
+      if(satoreGoogleUser !== "null"){
+        return "GoogleLogin";
+      }
+    }
+    if(storeMicrosoftUser !== null){
+      if(storeMicrosoftUser !== "null"){
+        return "MicrosoftLogin";
+      }
+    }
+    if(storeNormalUser !== null){
+      if(storeNormalUser !== "null"){
+        return "MicrosoftLogin";
+      }
+    }
+    return "NoLogin";
+  }
   UserLogOut(){
     return this.apiService.HttpGet(this.serviceName + 'LogOut');
   }
