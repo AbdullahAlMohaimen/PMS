@@ -24,13 +24,13 @@ export class AuthenticationService {
       map((response:any) => {
         const oUser = response; 
         if(oUser){
-          localStorage.setItem('token', oUser);
+          localStorage.setItem('pms_token', oUser);
           ApiService.AuthenticationToken = oUser;
         }
     }));
   }
   IsLoggedIn() {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('pms_token');
     ApiService.AuthenticationToken = token ? token : '';
     return !this.jwtHelper.isTokenExpired(token);
   }
@@ -38,7 +38,7 @@ export class AuthenticationService {
     return this.apiService.HttpGet(this.serviceName + 'LogOut');
   }
   Logout() {
-    localStorage.removeItem('token');
+    localStorage.removeItem('pms_token');
     this.router.navigate(['/pms-login']);
   }
 }

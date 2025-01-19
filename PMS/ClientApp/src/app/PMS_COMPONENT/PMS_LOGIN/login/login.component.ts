@@ -46,7 +46,7 @@ export class LoginComponent implements OnInit{
     private notification : NotificationService,
     private pmsMicrosoftService : PMSMicrosoftService,
     private pmsGoogleService : PMSGoogleService,
-    private loading : LoadingService,private authServiced: SocialAuthService ){
+    private loading : LoadingService,private googleAuthService: SocialAuthService ){
   }
   //#endregion
 
@@ -59,14 +59,30 @@ export class LoginComponent implements OnInit{
     this.oLoginRequest = new LoginRequest();
 
     //#region FOR GOOGLE
-    this.authServiced.refreshAuthToken(GoogleLoginProvider.PROVIDER_ID);
-    this.authSubscription = this.authServiced.authState.subscribe((user) => {
+    this.googleAuthService.refreshAuthToken(GoogleLoginProvider.PROVIDER_ID);
+    this.authSubscription = this.googleAuthService.authState.subscribe((user) => {
+      debugger;
       if(user !== null){
-        localStorage.setItem('lms_google_user', JSON.stringify(user));
-        
+        localStorage.setItem('pms_google_user', JSON.stringify(user));
       }
       else{
-        localStorage.removeItem('lms_google_user');
+        localStorage.removeItem('pms_google_user');
+      }
+      const loginUser : SocialUser = new SocialUser();
+      const storedUser = localStorage.getItem('lms_google_user'); 
+      if(storedUser !== "null" && storedUser !== null){
+        const socialUser : SocialUser = JSON.parse(storedUser);
+        if(socialUser !== null){
+          this.pmsGoogleService.RedirectResponse_SSO(socialUser);
+          this.pmsGoogleService.GETUserProfile_SSO().subscribe((oRequest: LoginRequest) => {
+            if (oRequest) {
+              this.loginRequest = oRequest;
+            }
+            if(this.loginRequest !== undefined && this.loginRequest.email !== ""){
+              this.UserLogin(this.loginRequest);
+            }
+          });
+        }
       }
     });
     //#endregion
@@ -74,12 +90,13 @@ export class LoginComponent implements OnInit{
     //#region FOR MICROSOFT
     this.pmsMicrosoftService.RedirectResponse_SSO();
     this.pmsMicrosoftService.GETUserProfile_SSO().subscribe((oRequest: LoginRequest) => {
+      debugger;
       if (oRequest) {
         this.loginRequest = oRequest;
       }
       if(this.loginRequest !== undefined && this.loginRequest.email !== ""){
-        localStorage.removeItem('lms_google_user');
-        ;
+        localStorage.removeItem('pms_google_user');
+        this.UserLogin(this.loginRequest);
       }
     });
     //#endregion
@@ -99,9 +116,12 @@ export class LoginComponent implements OnInit{
       this.notification.Warning("Please enter your PASSWORD","Warning");
       return;
     }
-    this.loading.IsLoginStart = true;
     this.oLoginRequest.isForSignIN = true;
-    this.authenticationService.Login(this.oLoginRequest).subscribe(
+    
+  }
+  UserLogin(loginRequest : LoginRequest){
+    this.loading.IsLoginStart = true;
+    this.authenticationService.Login(loginRequest).subscribe(
       (resp: any) => {
       },
       (err: any) => {
@@ -116,7 +136,7 @@ export class LoginComponent implements OnInit{
   }
   LOGIN(){
     const jwtHelper = new JwtHelperService();
-    const currentUser = jwtHelper.decodeToken(localStorage.getItem('token') as any);
+    const currentUser = jwtHelper.decodeToken(localStorage.getItem('pms_token') as any);
     if(currentUser !== null){
       this.router.navigate(['/pms-dashboard/dashboard']);
     }

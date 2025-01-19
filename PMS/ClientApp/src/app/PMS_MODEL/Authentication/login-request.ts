@@ -18,4 +18,9 @@ export class LoginRequest {
 		this.userName = account.name;
 		this.authorityType = EnumLoginType.Google;
 	}
+	populateFromSSOForNormal(account: any): void {
+		this.email = account.email;
+		this.userName = account.name;
+		this.authorityType = EnumLoginType.Normal;
+	}
 }
