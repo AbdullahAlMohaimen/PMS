@@ -23,8 +23,8 @@ namespace PMS.BO
 	}
     public interface ITeamService
     {
-        public int Save(Team item);
-        List<Team> GetTeamByUser(int userId);
-        List<Team> GetTeam(int Id);
+        public Task<int> Save(Team item);
+        public Task<List<Team>> GetTeamByUser(int userId);
+        public Task<List<Team>> GetTeam(int Id);
     }
 }

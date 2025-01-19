@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PMS.MODEL;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace PMS.BO
 {
-	public class Project
+	public class Project:BasicBase
 	{
 		#region Constractor
 		public Project() { }
@@ -29,4 +30,12 @@ namespace PMS.BO
 		public List<Milestone> Milestones { get; set; } = new List<Milestone>();
 		public List<Resource> Resources { get; set; } = new List<Resource>();
 	}
+    public interface IProjectService
+    {
+        public Task<int> Save(Project item);
+        public Task<List<Project>> GetProjectByUser(int userId);
+        public Task<List<Project>> GetProject(int Id);
+		public Task<List<Project>> GetProjectByTeam(int teamId);
+    }
+	
 }
