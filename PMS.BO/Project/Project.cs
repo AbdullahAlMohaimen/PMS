@@ -34,7 +34,7 @@ namespace PMS.BO
     {
         public Task<int> Save(Project item);
         public Task<List<Project>> GetProjectByUser(int userId);
-        public Task<List<Project>> GetProject(int Id);
+        public Task<List<Project>> Get(int Id);
 		public Task<List<Project>> GetProjectByTeam(int teamId);
     }
 	

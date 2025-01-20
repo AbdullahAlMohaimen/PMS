@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using PMS.BO;
 
@@ -6,6 +7,7 @@ namespace PMS.Controllers
 {
     [Route("api/Team")]
     [ApiController]
+    [Authorize]
     public class TeamController : ControllerBase
     {
         private readonly ITeamService _service;
@@ -18,13 +20,13 @@ namespace PMS.Controllers
         // EmployeeShortLeave
 
 
-        [HttpGet("getTeam/{userId}")]
-        public async Task<ActionResult> getTeam(int userId)
+        [HttpGet("get/{Id}")]
+        public async Task<ActionResult> Get(int Id)
         {
             List<Team> items = new List<Team>();
             try
             {
-                items = await _service.GetTeam(userId);
+                items = await _service.Get(Id);
             }
             catch (Exception e)
             {
@@ -34,14 +36,29 @@ namespace PMS.Controllers
             return Ok(items);
         }
 
-       
+        [HttpGet("getTeam/{userId}")]
+        public async Task<ActionResult> GetTeamByUser(int userId)
+        {
+            List<Team> items = new List<Team>();
+            try
+            {
+                items = await _service.GetTeamByUser(userId);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
+
+            return Ok(items);
+        }
 
         [HttpPost("SaveTeam")]
-        public ActionResult SaveTeam(Team teams)
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> SaveTeam(Team teams)
         {
             try
             {
-                _service.Save(teams);
+                await _service.Save(teams);
             }
             catch (Exception e)
             {

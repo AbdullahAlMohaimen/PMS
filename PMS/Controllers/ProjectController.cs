@@ -1,83 +1,74 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using PMS.BO;
 
 namespace PMS.Controllers
 {
+    [Route("api/Project")]
+    [ApiController]
+    [Authorize]
     public class ProjectController : ControllerBase
     {
-        // GET: ProjectController
-        public ActionResult Index()
+        private readonly IProjectService _service;
+
+        public ProjectController(IProjectService service)
         {
-            return Ok();
+            this._service = service;
         }
 
-        // GET: ProjectController/Details/5
-        public ActionResult Details(int id)
+        // EmployeeShortLeave
+
+
+        [HttpGet("get/{Id}")]
+        public async Task<ActionResult> Get(int Id)
         {
-            return Ok();
+            List<Project> items = new List<Project>();
+            try
+            {
+                items = await _service.Get(Id);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
+
+            return Ok(items);
         }
 
-        // GET: ProjectController/Create
-        public ActionResult Create()
+        [HttpGet("getProject/{userId}")]
+        public async Task<ActionResult> GetProjectByUser(int userId)
         {
-            return Ok();
+            List<Project> items = new List<Project>();
+            try
+            {
+                items = await _service.GetProjectByUser(userId);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
+
+            return Ok(items);
         }
 
-        // POST: ProjectController/Create
-        [HttpPost]
+        [HttpPost("SaveProject")]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<ActionResult> SaveProject(Project Projects)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                await _service.Save(Projects);
             }
-            catch
+            catch (Exception e)
             {
-                return Ok();
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
+
+            return Ok(true);
         }
 
-        // GET: ProjectController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return Ok();
-        }
 
-        // POST: ProjectController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return Ok();
-            }
-        }
 
-        // GET: ProjectController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return Ok();
-        }
-
-        // POST: ProjectController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return Ok();
-            }
-        }
     }
 }

@@ -30,7 +30,7 @@ namespace PMS.SERVICE
                 throw e.InnerException;
             }
         }
-        public async Task<List<Team>> GetTeam(int Id)
+        public async Task<List<Team>> Get(int Id)
         {
             try
             {
