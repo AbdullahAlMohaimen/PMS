@@ -25,9 +25,16 @@ namespace PMS.BO
         Google = 2,
         Microsoft=3,
         Github=4
-
     }
-    
+	public enum EnumMenuStatus : short
+	{
+		Regardless = 0,
+		Active = 1,
+		Inactive = 2,
+		Locked = 3,
+		Delete = 4,
+		NotYetApprove = 5,
+	}
 
 }
 

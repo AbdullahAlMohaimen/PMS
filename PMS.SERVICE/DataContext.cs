@@ -25,7 +25,8 @@ namespace PMS.SERVICE
         public DbSet<Resource> Resources { get; set; }
         public DbSet<Chat> Chats { get; set; }
         public DbSet<Notification> Notifications { get; set; }
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+		public DbSet<Menu> Menus { get; set; }
+		protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //    // Many-to-Many (User ↔ Team)
             //    modelBuilder.Entity<User>()

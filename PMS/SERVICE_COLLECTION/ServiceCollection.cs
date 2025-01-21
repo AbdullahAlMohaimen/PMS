@@ -9,6 +9,7 @@ namespace PMS
         {
 			oServices.AddScoped<ITeamService, TeamService>();
 			oServices.AddScoped<IUserService, UsersService>();
+			oServices.AddScoped<IMenuService, MenuService>();
 		}
     }
 }
