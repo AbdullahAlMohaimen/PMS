@@ -25,6 +25,6 @@ namespace PMS.BO
     {
         public Task<int> Save(Team item);
         public Task<List<Team>> GetTeamByUser(int userId);
-        public Task<List<Team>> GetTeam(int Id);
+        public Task<List<Team>> Get(int Id);
     }
 }
