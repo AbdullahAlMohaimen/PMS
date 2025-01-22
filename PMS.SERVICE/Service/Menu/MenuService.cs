@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace PMS.SERVICE
 {
-	public class MenuService
+	public class MenuService : IMenuService
 	{
 		private readonly IDbContextFactory<DataContext> _contextFactory;
 		public MenuService(IDbContextFactory<DataContext> contextFactory)
@@ -17,6 +17,65 @@ namespace PMS.SERVICE
 			_contextFactory = contextFactory;
 		}
 
+		#region GET CURRENT USER MENU
+		public async Task<List<MenuItem>> GETCURRENTUSERMENU(int userID)
+		{
+			List<Menu> allMenus = new List<Menu>();
+			List<MenuItem> allMenuItems = new List<MenuItem>();
+			try
+			{
+				allMenus = await this.GETALL();
+				foreach (var oMenu in allMenus)
+				{
+					var menuItem = new MenuItem
+					{
+						ID = oMenu.Id,
+						ParentID = oMenu.MenuParentID,
+						Key = oMenu.MenuKey,
+						Label = oMenu.MenuName,
+						Icon = oMenu.MenuIcon,
+						Route = oMenu.MenuPath,
+						Items = new List<MenuItem>()
+					};
+					if (oMenu.MenuParentID == 0)
+					{
+						allMenuItems.Add(menuItem);
+					}
+					else
+					{
+						var parentMenu = FindParentMenu(allMenuItems, oMenu.MenuParentID);
+						if (parentMenu != null)
+						{
+							parentMenu.Items.Add(menuItem);
+						}
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				throw e.InnerException;
+			}
+			return allMenuItems;
+		}
+
+		private MenuItem FindParentMenu(List<MenuItem> menuItems, int parentID)
+		{
+			foreach (var menuItem in menuItems)
+			{
+				if (menuItem.ID == parentID)
+				{
+					return menuItem;
+				}
+				var parent = FindParentMenu(menuItem.Items, parentID);
+				if (parent != null)
+				{
+					return parent;
+				}
+			}
+			return null;
+		}
+
+		#endregion
 		public async Task<int> Save(Menu item)
 		{
 			try
@@ -119,7 +178,7 @@ namespace PMS.SERVICE
 				throw new Exception("Menu not found.");
 			}
 		}
-		public void MenuApproveOrDisApprove(List<Menu> approvalMenu)
+		public async Task MenuApproveOrDisApprove(List<Menu> approvalMenu)
 		{
 			try
 			{

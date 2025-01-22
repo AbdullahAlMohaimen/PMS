@@ -95,9 +95,10 @@ namespace PMS.BO
 		public Task<Menu> GET(string menuKey);
 		public Task<List<Menu>> GET(EnumMenuStatus status);
 		public Task<List<Menu>> GETALL();
-		void UPDATEMENUKEY(Menu oMenu);
-		void UPDATEMENUSTATUS(Menu oMenu);
-		void MenuApproveOrDisApprove(List<Menu> approvalMenu);
+		public Task<List<MenuItem>> GETCURRENTUSERMENU(int userID);
+		public Task UPDATEMENUKEY(Menu oMenu);
+		public Task UPDATEMENUSTATUS(Menu oMenu);
+		public Task MenuApproveOrDisApprove(List<Menu> approvalMenu);
 	}
 	#endregion
 }
