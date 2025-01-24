@@ -83,6 +83,13 @@ export enum EnumTeamMemberType
 }
 //#endregion
 
+//#region EnumSortedBy
+export enum EnumSortedBy{
+    Ascending = 1,
+    Descending = 2
+}
+//#endregion
+
 
 
 

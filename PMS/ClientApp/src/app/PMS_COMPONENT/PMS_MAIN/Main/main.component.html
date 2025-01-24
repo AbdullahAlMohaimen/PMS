@@ -17,9 +17,7 @@
         <div class="custom-layout-menu" *ngIf="apiService.IsAdmin === true" [ngClass]="{ 'active': isMenuVisible }">
             <app-menu *ngIf="apiService.IsAdmin === true"></app-menu>
         </div>
-        <div class="custom-layout-content" 
-            [ngClass]="{ 'full-widthA': !isMenuVisible,
-            'full-widthB': apiService.IsAdmin === false }">
+        <div class="custom-layout-content" [ngClass]="{ 'full-widthA': !isMenuVisible, 'full-widthB': apiService.IsAdmin === false }">
             <router-outlet></router-outlet>
         </div>
     </div>

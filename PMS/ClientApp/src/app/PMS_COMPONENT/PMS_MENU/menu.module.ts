@@ -1,11 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BrowserModule } from '@angular/platform-browser';
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpClient } from '@angular/common/http';
 import { HttpClientJsonpModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -22,7 +20,6 @@ import { InputSwitchModule } from 'primeng/inputswitch';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { MegaMenuModule } from 'primeng/megamenu';
-import { MenuModule } from 'primeng/menu';
 import { MenubarModule } from 'primeng/menubar';
 import { PanelMenuModule } from 'primeng/panelmenu';
 import { RadioButtonModule } from 'primeng/radiobutton';
@@ -42,46 +39,35 @@ import { TabViewModule } from 'primeng/tabview';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { RippleModule } from 'primeng/ripple';
-import { MsalGuard } from '@azure/msal-angular';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { TableModule } from 'primeng/table';
+import { DropdownModule } from 'primeng/dropdown';
 
-import { AuthenticationService } from './PMS_SERVICE/Authentication_S/authentication.service';
-import { NotificationService } from './PMS_SERVICE/Notification_S/notification.service';
-import { MainComponent } from './PMS_COMPONENT/PMS_MAIN/Main/main.component';
-import { LoadingModule } from './PMS_COMPONENT/Loading/loading.module';
-import { LoadingService } from './PMS_COMPONENT/Loading/loading.service';
-import { TopbarComponent } from './PMS_COMPONENT/PMS_MAIN/topbar/topbar.component';
-import { FooterComponent } from './PMS_COMPONENT/PMS_MAIN/footer/footer.component';
-import { MenuComponent } from './PMS_COMPONENT/PMS_MAIN/menu/menu.component';
-import { LoginComponent } from './PMS_COMPONENT/PMS_LOGIN/login/login.component';
-import { SignupComponent } from './PMS_COMPONENT/PMS_LOGIN/signup/signup.component';
-import { ErrorComponent } from './PMS_COMPONENT/error/error.component';
-import { PMSMicrosoftModule } from './PMS_AUTH_MECHANISM/PMS_Microsoft/pmsmicrosoft.module';
-import { PMSGithubModule } from './PMS_AUTH_MECHANISM/PMS_Github/pmsgithub.module';
-import { GoogleSigninButtonModule } from '@abacritt/angularx-social-login';
-import { PMSGoogleModule } from './PMS_AUTH_MECHANISM/PMS_Google/pmsgoogle.module';
-import { ForgetPasswordComponent } from './PMS_COMPONENT/PMS_MAIN/forget-password/forget-password.component';
+import { AuthenticationService } from '../../PMS_SERVICE/Authentication_S/authentication.service';
+import { LoadingService } from '../Loading/loading.service';
+import { NotificationService } from '../../PMS_SERVICE/Notification_S/notification.service';
+import { DataTransferService } from '../../PMS_SERVICE/DataTransfer_S/data-transfer.service';
+import { LoadingModule } from '../Loading/loading.module';
+
+import { MenuRoutingModule } from './menu-routing.module';
+import { MenuListComponent } from './menu-list/menu-list.component';
+import { MenuEntryComponent } from './menu-list/menu-entry/menu-entry.component';
+import { MenuApprovalComponent } from './menu-approval/menu-approval.component';
+import { MenuService } from '../../PMS_SERVICE/Menu_S/menu.service';
+
 
 @NgModule({
   declarations: [
-    AppComponent,
-    MainComponent,
-    TopbarComponent,
-    FooterComponent,
-    MenuComponent,
-    LoginComponent,
-    SignupComponent,
-    ErrorComponent,
-    ForgetPasswordComponent,
+    MenuListComponent,
+    MenuEntryComponent,
+    MenuApprovalComponent
   ],
   imports: [
-    BrowserModule,
-    AppRoutingModule,
+    CommonModule,
+    MenuRoutingModule,
     HttpClientModule,
     FormsModule,
     FontAwesomeModule,
-    HttpClientModule,
-    BrowserAnimationsModule,
     BreadcrumbModule,
     ButtonModule,
     ContextMenuModule,
@@ -92,7 +78,6 @@ import { ForgetPasswordComponent } from './PMS_COMPONENT/PMS_MAIN/forget-passwor
     InputTextModule,
     InputTextareaModule,
     MegaMenuModule,
-    MenuModule,
     MenubarModule,
     PanelMenuModule,
     RadioButtonModule,
@@ -114,32 +99,18 @@ import { ForgetPasswordComponent } from './PMS_COMPONENT/PMS_MAIN/forget-passwor
     TabViewModule,
     NgxExtendedPdfViewerModule,
     DialogModule,
+    TableModule,
     ProgressSpinnerModule,
-    LoadingModule,
-    ToastrModule.forRoot({
-      timeOut: 8000,
-      positionClass: 'toast-top-center',
-      preventDuplicates: false,
-    }),
-    PMSMicrosoftModule,
-    PMSGoogleModule,
-    GoogleSigninButtonModule
+    DropdownModule,
+    LoadingModule
   ],
   providers: [
     DatePipe,
     AuthenticationService,
     NotificationService,
-    LoadingService
+    DataTransferService,
+    LoadingService,
+    MenuService
   ],
-  bootstrap: [AppComponent]
 })
-export class AppModule {
-  constructor(public authService: AuthenticationService){
-    this.overrideDate();
-  }
-  overrideDate() {
-    Date.prototype.toJSON = function(key) {
-        return this.toLocaleDateString('en-US') + ' ' + this.toLocaleTimeString('en-US');
-    };
-  }
-}
+export class MenuModule { }

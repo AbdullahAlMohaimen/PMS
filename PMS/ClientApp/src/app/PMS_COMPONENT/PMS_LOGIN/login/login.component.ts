@@ -186,15 +186,16 @@ export class LoginComponent implements OnInit{
         const jwtHelper = new JwtHelperService();
         const currentUser = jwtHelper.decodeToken(localStorage.getItem('pms_token') as any);
         if(currentUser.ID === "7"){
-          this.apiService.IsAdmin = true;
-          //localStorage.removeItem('pms_menuList');
+          localStorage.removeItem('pms_menuList');
           this.menuService.GetCurrentUserMenus().subscribe(
             (resp: any) => {
+              debugger;
               localStorage.setItem('pms_menuList', JSON.stringify(resp));
             },
             (err: any) => {
             },
             () => {
+              this.apiService.IsAdmin = true;
               this.authGuard.loginEvent.emit(true);
               this.LOGIN();
           });
@@ -212,12 +213,11 @@ export class LoginComponent implements OnInit{
     }
   }
   forgetPasswordClick(){
-
+    this.router.navigate(['/pms-forget-password']);
   }
   signup(){
     this.router.navigate(['/pms-signup']);
   }
-
   login() {
     this.msalService.loginRedirect();
   }

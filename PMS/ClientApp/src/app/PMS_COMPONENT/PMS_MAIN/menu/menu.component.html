@@ -1,15 +1,14 @@
-<span class="p-input-icon-left shadow-3" style="    width: 96%;border-radius: 5px;margin-left: 4px;margin-top: 6px;">
+<span class="p-input-icon-left" style="width: 97%;;border-radius: 5px;margin-left: 4px;margin-top: 6px;">
     <i class="pi pi-search" style="font-weight: bold;"></i>
     <input  pInputText 
             type="text" 
             [(ngModel)]="searchQuery" 
             (input)="filterItems()"
-            placeholder="Search...." 
-            style="width: 100%;"/>
+            placeholder="Search..." 
+            style="width: 100%;font-weight: bold;"/>
 </span>
-<label for="">{{filteredItems[0].menuName}}</label>
 <div class="menuCard menuFlex MenuJustify-content-center">
-    <p-panelMenu [model]="filteredItems" styleClass="w-full md:w-16.9rem">
+    <p-panelMenu [model]="filteredItems" styleClass="w-full md:w-17rem">
         <ng-template pTemplate="item" let-item>
             <ng-container *ngIf="item.route; else urlRef">
                 <a [routerLink]="item.route" class="flex align-items-center 
