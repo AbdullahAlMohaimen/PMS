@@ -23,7 +23,7 @@ export class AUTHGUARD implements CanActivate {
         return false;
     }
     public getCurrentUserMenu(): any {
-        const menuList = localStorage.getItem('menuList');
+        const menuList = localStorage.getItem('pms_menuList');
         return menuList ? JSON.parse(menuList) : null;
     }
 }

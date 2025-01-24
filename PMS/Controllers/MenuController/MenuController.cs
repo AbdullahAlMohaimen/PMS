@@ -20,8 +20,7 @@ namespace PMS.Controllers
 		#endregion
 
 		#region GET CURRENT USER ALL MENU
-		[HttpPost("GetCurrentUserMenus")]
-		[ValidateAntiForgeryToken]
+		[HttpGet("GetCurrentUserMenus")]
 		public async Task<ActionResult> GetCurrentUserMenus()
 		{
 			CurrentUser oCurrentUser = CurrentUser.GET_CURRENT_USER(HttpContext.User);
@@ -41,7 +40,6 @@ namespace PMS.Controllers
 
 		#region SAVE MENU
 		[HttpPost("SaveMenu")]
-		[ValidateAntiForgeryToken]
 		public async Task<ActionResult> SaveMenu(dynamic data)
 		{
 			CurrentUser oCurrentUser = CurrentUser.GET_CURRENT_USER(HttpContext.User);

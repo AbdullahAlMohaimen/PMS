@@ -1,3 +1,4 @@
+import { EnumMenuStatus } from "../../PMS_GLOBAL/Enum";
 import { BasicBaseObject } from "../Basic/BasicBaseObject";
 
 export class Menu extends BasicBaseObject{
@@ -8,7 +9,7 @@ export class Menu extends BasicBaseObject{
         this.menuPath = "";
         this.menuKey = "";
         this.menuParentID = 0;
-        //this.menuStatus = EnumMenuStats.NotYetApprove;
+        this.menuStatus = EnumMenuStatus.NotYetApprove;
     }
     menuName : string;
     menuIcon : string;

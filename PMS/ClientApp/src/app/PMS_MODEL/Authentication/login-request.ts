@@ -1,4 +1,4 @@
-import { EnumLoginType } from "../Enum";
+import { EnumLoginType } from "../../PMS_GLOBAL/Enum";
 
 export class LoginRequest {
     email: string = '';

@@ -1,0 +1,42 @@
+.MenuJustify-content-center {
+    justify-content: center !important;
+}
+.menuFlex {
+    display: flex !important;
+}
+.menuCard {
+    border: var(--card-border);
+    padding: 8px;
+    padding-right: 0;
+    padding-left: 0;
+}
+.panelMenu {
+    width: 100%;
+}
+:host ::ng-deep .pi {
+    color: #082502;
+    font-size: 17px;
+}
+:host ::ng-deep .ml-2 {
+    color: #082502;
+}
+:host ::ng-deep .p-panelmenu .p-panelmenu-content {
+    background: none;
+}
+:host ::ng-deep .text-color {
+    color: #082502 !important;
+}
+:host ::ng-deep .text-primary {
+    color: #082502 !important;
+}
+:host ::ng-deep .py-2 {
+    padding-top: 0.4rem !important;
+    padding-bottom: 0.4rem !important;
+}
+:host ::ng-deep .py-2:hover {
+    background: #3f9d94;
+}
+:host ::ng-deep .py-2:active{
+    transform: scale(0.97);
+    background: #36877f;
+}

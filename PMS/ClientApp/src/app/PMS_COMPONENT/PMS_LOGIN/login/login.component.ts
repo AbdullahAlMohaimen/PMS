@@ -20,6 +20,7 @@ import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
 import { GoogleLoginProvider } from "@abacritt/angularx-social-login";
 import { PMSGoogleService } from '../../../PMS_AUTH_MECHANISM/PMS_Google/pmsgoogle.service';
 import { MsalService } from '@azure/msal-angular';
+import { MenuService } from '../../../PMS_SERVICE/Menu_S/menu.service';
 
 @Component({
   selector: 'app-login',
@@ -46,7 +47,8 @@ export class LoginComponent implements OnInit{
     private notification : NotificationService,
     private pmsMicrosoftService : PMSMicrosoftService,
     private pmsGoogleService : PMSGoogleService,
-    private loading : LoadingService,private googleAuthService: SocialAuthService ){
+    private loading : LoadingService,private googleAuthService: SocialAuthService,
+    private menuService : MenuService ){
   }
   //#endregion
 
@@ -57,7 +59,6 @@ export class LoginComponent implements OnInit{
   isShow : boolean = true;
   ngOnInit(){
     this.createForms();
-    debugger;
     this.oLoginRequest = new LoginRequest();
     if(this.authenticationService.ISAlreadySSOLogin() === "NoLogin"){
       this.isShow = true;
@@ -127,7 +128,6 @@ export class LoginComponent implements OnInit{
     //#endregion
   
     //#region FOR NORMAL LOGIN
-    debugger;
     const storedNormalUser = localStorage.getItem('pms_normal_user'); 
     if(storedNormalUser !== "null" && storedNormalUser !== null){
       const normalUser : LoginRequest = JSON.parse(storedNormalUser);
@@ -152,7 +152,6 @@ export class LoginComponent implements OnInit{
       this.notification.Warning("Please enter your PASSWORD","Warning");
       return;
     }
-    debugger;
     this.oLoginRequest.isForSignIN = true;
     this.oLoginRequest.isSSO = false;
     localStorage.removeItem('pms_google_user');
@@ -176,15 +175,33 @@ export class LoginComponent implements OnInit{
       (resp: any) => {
       },
       (err: any) => {
-        localStorage.removeItem('pms_google_user');
-        localStorage.removeItem('pms_microsoft_user');
-        localStorage.removeItem('pms_normal_user');
+        // localStorage.removeItem('pms_google_user');
+        // localStorage.removeItem('pms_microsoft_user');
+        // localStorage.removeItem('pms_normal_user');
         this.loading.IsLoginStart = false;
         this.notification.Error(err.error.message);
       },
       () => {
         this.loading.IsLoginStart = false;
-        this.LOGIN();
+        const jwtHelper = new JwtHelperService();
+        const currentUser = jwtHelper.decodeToken(localStorage.getItem('pms_token') as any);
+        if(currentUser.ID === "7"){
+          this.apiService.IsAdmin = true;
+          //localStorage.removeItem('pms_menuList');
+          this.menuService.GetCurrentUserMenus().subscribe(
+            (resp: any) => {
+              localStorage.setItem('pms_menuList', JSON.stringify(resp));
+            },
+            (err: any) => {
+            },
+            () => {
+              this.authGuard.loginEvent.emit(true);
+              this.LOGIN();
+          });
+        }
+        else{
+          this.LOGIN();
+        }
     });
   }
   LOGIN(){

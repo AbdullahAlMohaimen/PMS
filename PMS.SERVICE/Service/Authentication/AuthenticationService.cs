@@ -31,7 +31,7 @@ namespace PMS.SERVICE
 				new Claim("Name", oUser.Name),
 				new Claim("Email", oUser.Email),
 				new Claim("Language", oUser.Language),
-				new Claim("LoginType", oUser.LoginType.ToString()),
+				new Claim("LoginType", ((int)oUser.LoginType).ToString()),
 				new Claim("AuthorizedDate", oUser.AuthorizedDate.ToString()),
 			};
 			var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtConfig["Key"]));
