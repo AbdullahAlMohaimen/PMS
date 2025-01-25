@@ -189,13 +189,13 @@ export class LoginComponent implements OnInit{
           localStorage.removeItem('pms_menuList');
           this.menuService.GetCurrentUserMenus().subscribe(
             (resp: any) => {
-              debugger;
               localStorage.setItem('pms_menuList', JSON.stringify(resp));
             },
             (err: any) => {
             },
             () => {
               this.apiService.IsAdmin = true;
+              this.apiService.IsLogedIn = true;
               this.authGuard.loginEvent.emit(true);
               this.LOGIN();
           });

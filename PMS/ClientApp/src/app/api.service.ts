@@ -15,6 +15,7 @@ import { DatePipe } from '@angular/common';
 })
 export class ApiService {
   public IsAdmin : boolean = false;
+  public IsLogedIn : boolean = false;
   public static AuthenticationToken = "";
   public CurrentMenuName : string = "";
   public BASE_URL = "";

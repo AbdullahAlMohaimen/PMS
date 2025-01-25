@@ -18,7 +18,6 @@ export class MenuComponent implements OnInit{
 
   constructor(private router: Router,private auth : AUTHGUARD) {}
   ngOnInit() {
-    debugger;
     this.items = this.auth.getCurrentUserMenu();
     this.filteredItems = [...this.items];
     this.auth.loginEvent.subscribe(value => this.GetCurrentUserALLMenu(value));

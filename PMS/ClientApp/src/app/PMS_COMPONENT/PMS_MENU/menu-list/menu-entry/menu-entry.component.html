@@ -1,1 +1,55 @@
-<p>menu-entry works!</p>
+<fieldset style="margin: 10px;">
+    <div class="grid" style="margin: auto;">
+        <div class="col-6" style="margin: auto;">
+            <label style="font-weight: bold;">Menu Type</label>
+            <p-dropdown 
+                [options]="menuTypes" 
+                [(ngModel)]="selectedMenuType"
+                [showClear]="true" 
+                [style]="{'width':'100%'}"
+                optionLabel="name" 
+                optionValue="value"
+                placeholder="Select a Menu" 
+                (onChange)="onMenuTypeChange()"/>
+        </div>
+        <div class="col-6" style="margin: auto;">
+            <label style="font-weight: bold;" *ngIf="isParent === false && allMenus.length > 0">Choose Parent</label>
+            <p-dropdown  
+                [options]="allMenus" 
+                [(ngModel)]="selectedParent"
+                [showClear]="true" 
+                [style]="{'width':'100%'}"
+                optionLabel="customMenuName"
+                optionValue="id"
+                placeholder="Select a Parent" 
+                (onChange)="onSelectedParentChange()"
+                *ngIf="isParent === false && allMenus.length > 0"/>
+        </div>
+        <div class="col-6" style="margin: auto;">
+            <label style="font-weight: bold;">Menu Key</label>
+            <input required [(ngModel)]="currentMenu.menuKey" type="text"  style="width:100%;color: #005f73;font-weight: bold;" pInputText [disabled]="true">
+        </div>
+        <div class="col-6" style="margin: auto;">
+            <label style="font-weight: bold;">Menu Name</label>
+            <input required [(ngModel)]="currentMenu.menuName" type="text"  style="width:100%;" pInputText>
+        </div>
+        <div class="col-6" style="margin: auto;">
+            <label style="font-weight: bold;">Menu Path/Link</label>
+            <input [(ngModel)]="currentMenu.menuPath" type="text"  style="width:100%;" pInputText>
+        </div>
+        <div class="col-6" style="margin: auto;">
+            <label style="font-weight: bold;">Menu Icon</label>
+            <input required [(ngModel)]="currentMenu.menuIcon" type="text"  style="width:100%;" pInputText>
+        </div>
+    </div>
+</fieldset>
+
+<div class="grid" style="margin: auto;margin-top: -10px;">
+    <div class="col-6" style="margin: auto;">
+        <label for="" style="font-weight: bold;color: #165E64;margin-left: 5px;">Node : {{menuDescription}}</label>
+    </div>
+    <div class="col-6" align="right">
+        <p-button (click)="cloaseDialogue()" label="Close" icon="pi pi-times" [raised]="true" severity="danger" [ngStyle]="{'margin-right': '5px'}"></p-button>
+        <p-button (click)="onSave()" label="Submit" icon="pi pi-check" [raised]="true" [ngStyle]="{'margin-right': '3px'}"></p-button>
+    </div>
+</div>

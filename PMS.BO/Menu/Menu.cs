@@ -96,6 +96,7 @@ namespace PMS.BO
 		public Task<List<Menu>> GET(EnumMenuStatus status);
 		public Task<List<Menu>> GETALL();
 		public Task<List<MenuItem>> GETCURRENTUSERMENU(int userID);
+		public Task DELETE(int ID);
 		public Task UPDATEMENUKEY(Menu oMenu);
 		public Task UPDATEMENUSTATUS(Menu oMenu);
 		public Task MenuApproveOrDisApprove(List<Menu> approvalMenu);

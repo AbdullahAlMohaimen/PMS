@@ -76,6 +76,10 @@ namespace PMS.SERVICE
 		}
 
 		#endregion
+
+		#region SERVICE IMPLEMENTATION
+
+		#region SAVE
 		public async Task<int> Save(Menu item)
 		{
 			try
@@ -90,7 +94,29 @@ namespace PMS.SERVICE
 				throw e.InnerException;
 			}
 		}
+		#endregion
 
+		#region DELETE
+		public async Task DELETE(int menuID)
+		{
+			try
+			{
+				using var context = _contextFactory.CreateDbContext();
+				Menu oMenu = await GET(menuID);
+				if (oMenu != null)
+				{
+					context.Menus.Remove(oMenu);
+					context.SaveChanges();
+				}
+			}
+			catch (Exception e)
+			{
+				throw e.InnerException;
+			}
+		}
+		#endregion
+
+		#region GET MENU BY ID
 		public async Task<Menu> GET(int menuID)
 		{
 			try
@@ -103,7 +129,24 @@ namespace PMS.SERVICE
 				throw e.InnerException;
 			}
 		}
+		#endregion
 
+		#region GET MENU BY PARENTID
+		public async Task<List<Menu>> GETBYPARENTID(int ID)
+		{
+			try
+			{
+				using var context = _contextFactory.CreateDbContext();
+				return await context.Menus.Where(x => x.MenuParentID == ID).ToListAsync();
+			}
+			catch (Exception e)
+			{
+				throw e.InnerException;
+			}
+		}
+		#endregion
+
+		#region GET MENU BY KEY
 		public async Task<Menu> GET(string menuKey)
 		{
 			try
@@ -116,7 +159,9 @@ namespace PMS.SERVICE
 				throw e.InnerException;
 			}
 		}
+		#endregion
 
+		#region GET BY STATUS
 		public async Task<List<Menu>> GET(EnumMenuStatus status)
 		{
 			try
@@ -129,7 +174,9 @@ namespace PMS.SERVICE
 				throw e.InnerException;
 			}
 		}
+		#endregion
 
+		#region GET ALL MENU
 		public async Task<List<Menu>> GETALL()
 		{
 			try
@@ -142,7 +189,9 @@ namespace PMS.SERVICE
 				throw e.InnerException;
 			}
 		}
+		#endregion
 
+		#region UPDATEMENU
 		public async Task UPDATEMENUKEY(Menu oMenu)
 		{
 			try
@@ -160,7 +209,9 @@ namespace PMS.SERVICE
 				throw new Exception("Menu not found.");
 			}
 		}
+		#endregion
 
+		#region UPDATEMENUSTATUS
 		public async Task UPDATEMENUSTATUS(Menu oMenu)
 		{
 			try
@@ -178,6 +229,9 @@ namespace PMS.SERVICE
 				throw new Exception("Menu not found.");
 			}
 		}
+		#endregion
+
+		#region Menu Approve Or DisApprove
 		public async Task MenuApproveOrDisApprove(List<Menu> approvalMenu)
 		{
 			try
@@ -189,7 +243,9 @@ namespace PMS.SERVICE
 				throw new Exception($"Menu with Id not found.");
 			}
 		}
+		#endregion
 
+		#endregion
 
 	}
 }

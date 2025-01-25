@@ -32,6 +32,9 @@ export class MenuService {
   MenuApproveOrDisApprove(param : any):any{
     return this.apiService.HttpPost(this.serviceName+'MenuApproveOrDisApprove',param);
   }
+  DeleteMenu(menuID: number):any{
+    return this.apiService.HttpGet<Menu[]>(this.serviceName+'DeleteMenu'+'/'+menuID);
+  }
   SaveMenu(param : any){
     return this.apiService.HttpPost(this.serviceName+'SaveMenu',param);
   }
