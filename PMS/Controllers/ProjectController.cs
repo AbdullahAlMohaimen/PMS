@@ -36,13 +36,29 @@ namespace PMS.Controllers
             return Ok(items);
         }
 
-        [HttpGet("getProject/{userId}")]
+        [HttpGet("GetProjectByUser/{userId}")]
         public async Task<ActionResult> GetProjectByUser(int userId)
         {
             List<Project> items = new List<Project>();
             try
             {
                 items = await _service.GetProjectByUser(userId);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
+
+            return Ok(items);
+        }
+
+        [HttpGet("GetProjectByTeam/{userId}")]
+        public async Task<ActionResult> GetProjectByTeam(int teamId)
+        {
+            List<Project> items = new List<Project>();
+            try
+            {
+                items = await _service.GetProjectByUser(teamId);
             }
             catch (Exception e)
             {

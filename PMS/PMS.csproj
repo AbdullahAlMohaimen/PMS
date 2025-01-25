@@ -29,6 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="ClientApp\src\app\PMS_MODEL\Enums\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
