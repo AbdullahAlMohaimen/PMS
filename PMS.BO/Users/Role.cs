@@ -12,7 +12,6 @@ namespace PMS.BO
 
         public Role()
         {
-            Code = string.Empty;
             Name = string.Empty;
 
         }
@@ -22,7 +21,6 @@ namespace PMS.BO
         #region Properties
         public int Id { get; set; }
         public string Name { get; set; }
-        public string Code { get; set; }
         public string Description { get; set; }
     
     
