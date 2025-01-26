@@ -3,20 +3,18 @@ import { BasicBaseObject } from "../Basic/BasicBaseObject";
 export class Notification extends BasicBaseObject{
   constructor() {
     super();
-    this.Id = 0;
-    this.Message = "";
-    this.Type = "";
-    this.Status = "";
-    this.CreatedAt = "";
-    this.UserId = 0;
+    this.message = "";
+    this.type = "";
+    this.status = "";
+    this.createdAt = "";
+    this.userId = 0;
 
   }
-  Id: number;
-  Message: string;
-  Type: string;
-  Status: string;
-  CreatedAt: string;
-  UserId: number
+  message: string;
+  type: string;
+  status: string;
+  createdAt: string;
+  userId: number
 }
 
 

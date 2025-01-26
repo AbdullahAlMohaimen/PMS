@@ -3,26 +3,21 @@ import { BasicBaseObject } from "../Basic/BasicBaseObject";
 export class User extends BasicBaseObject{
     constructor(){
         super();
-      this.Id = 0;
-      this.Name = "";
-      this.Email = "";
-      this.Password = "";
-      this.Solt = "";
-      this.LoginType ="";
-      this.Language = "";
-      this.AuthorizedDate = "";
-
-
-        //this.menuStatus = EnumMenuStats.NotYetApprove;
-    }
-  Id: number;
-  Name: string;
-  Email: string;
-  Password: string;
-  Solt: string;
-  LoginType: string;
-  Language: string;
-  AuthorizedDate: string;
+      this.name = "";
+      this.email = "";
+      this.password = "";
+      this.solt = "";
+      this.loginType ="";
+      this.language = "";
+      this.authorizedDate = "";
+  }
+  name: string;
+  email: string;
+  password: string;
+  solt: string;
+  loginType: string;
+  language: string;
+  authorizedDate: string;
 }
 
 

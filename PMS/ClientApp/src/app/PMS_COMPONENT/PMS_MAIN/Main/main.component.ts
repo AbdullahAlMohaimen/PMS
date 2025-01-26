@@ -9,6 +9,7 @@ import { ApiService } from '../../../api.service';
 })
 export class MainComponent {
   constructor(public authService: AuthenticationService,public apiService : ApiService) {
+    debugger;
     if(this.authService.ISAlreadySSOLogin() === "NoLogin"){
       this.authService.Logout();
     }
@@ -18,7 +19,7 @@ export class MainComponent {
       }
     }
   }
-  isMenuVisible: boolean = false;
+  isMenuVisible: boolean = true;
 
   toggleMenu(): void {
     this.isMenuVisible = !this.isMenuVisible;

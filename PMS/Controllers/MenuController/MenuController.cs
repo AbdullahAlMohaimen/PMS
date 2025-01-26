@@ -51,13 +51,13 @@ namespace PMS.Controllers
 				if (oMenu.Id == 0)
 				{
 					oMenu.CreatedBy = oCurrentUser.ID;
-					oMenu.CreationDate = DateTime.Now;
+					oMenu.CreationDate = DateTime.Now.ToUniversalTime();
 					oMenu.MenuStatus = EnumMenuStatus.NotYetApprove;
 				}
 				else
 				{
 					oMenu.ModifiedBy = oCurrentUser.ID;
-					oMenu.ModifiedDate = DateTime.Now;
+					oMenu.ModifiedDate = DateTime.Now.ToUniversalTime();
 					oMenu.MenuStatus = EnumMenuStatus.Active;
 				}
 				await _service.Save(oMenu);
