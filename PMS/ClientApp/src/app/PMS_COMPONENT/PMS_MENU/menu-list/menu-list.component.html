@@ -1,1 +1,77 @@
-<p>menu-list works!</p>
+<app-loading></app-loading>
+<div class="grid" style="margin: auto;">
+    <div class="col-12">
+        <p-table
+            [value]="allMenus" 
+            [rows]="10"
+            [first]="first"
+            [paginator]="true"
+            [scrollable]="true"
+            [resizableColumns]="true" 
+            [showCurrentPageReport]="true"
+            [tableStyle]="{'min-width': '50rem'}"
+            styleClass="p-datatable-gridlines p-datatable-striped" 
+            (onPage)="pageChange($event)"
+            dataKey="id"
+            sortMode="multiple"
+            scrollHeight="450px"
+            [globalFilterFields]="['code', 'name', 'statusString', 'createdBy']"
+            [rowHover]="true">
+                <ng-template pTemplate="caption">
+                    <p-button (click)="addNew()" label="Add New Menu" icon="pi pi-plus" [raised]="true"></p-button>
+                    
+                    <span class="p-input-icon-left shadow-6" style="width: 30%;margin-left: 10px;border-radius: 5px;">
+                        <i class="pi pi-search" style="font-weight: bold;"></i>
+                        <input  pInputText 
+                                type="text" 
+                                [(ngModel)]="searchText"
+                                placeholder="Search all columns..." 
+                                (input)="applyFilter($event)" 
+                                style="width: 100%;"/>
+                    </span>
+                    <p-button label="Export" icon="pi pi-file-excel" [raised]="true" [ngStyle]="{'float': 'right'}"/>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th pResizableColumn pSortableColumn="menuName" [style.width.px]="200">Menu Name <p-sortIcon field="menuName"/></th>
+                        <th pResizableColumn pSortableColumn="menuIcon" [style.width.px]="120">Menu Icon <p-sortIcon field="menuIcon"/></th>
+                        <th pResizableColumn pSortableColumn="menuPath" [style.width.px]="120">Menu Path <p-sortIcon field="menuPath"/></th>
+                        <th pResizableColumn pSortableColumn="menuKey" [style.width.px]="120">Menu Key <p-sortIcon field="menuKey"/></th>
+                        <th pResizableColumn pSortableColumn="menuStatus" [style.width.px]="120">Menu Status <p-sortIcon field="menuStatus"/></th>
+                        <th pResizableColumn [style.width.px]="100" [style.textAlign]="'center'">Action</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-menu>
+                    <tr>
+                        <td>{{menu.menuName}}</td>
+                        <td>{{menu.menuIcon}}</td>
+                        <td>{{menu.menuPath}}</td>
+                        <td>{{menu.menuKey}}</td>
+                        <td [ngStyle]="{'color': menu.menuStatusColor}" style="font-weight: bold;text-align: center;">
+                            {{menu.menuStatusString}}
+                        </td>
+                        <td [style.textAlign]="'center'">
+                            <p-button (click)="editMenu(menu)" icon="pi pi-pencil" [raised]="true" [ngStyle]="{'margin-right': '5px'}"></p-button>
+                            <p-button (click)="deleteMenu(menu)" icon="pi pi-trash" [raised]="true" severity="danger"></p-button>
+                        </td>
+                    </tr>
+                </ng-template>
+        </p-table>
+    </div>
+</div>
+
+<p-dialog *ngIf="isShowPopup === true" header="{{headerTitle}}" [modal]="true" [(visible)]="isShowPopup" [style]="{ width: '700px' }">
+    <div class="dialogue-header-top">
+        <div class="div1">.</div>
+        <div class="div2">.</div>
+        <div class="div3">.</div>
+        <div class="div4">.</div>
+        <div class="div5">.</div>
+        <div class="div6">.</div>
+        <div class="div7">.</div>
+        <div class="div8">.</div>
+        <div class="div9">.</div>
+        <div class="div10">.</div>
+    </div>
+    <app-menu-entry (cancel)="cancel($event)" [GetMenu]="currentMenu"></app-menu-entry>
+</p-dialog>

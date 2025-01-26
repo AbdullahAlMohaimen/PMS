@@ -13,7 +13,9 @@ export class MainComponent {
       this.authService.Logout();
     }
     else{
-      this.authService.Logout();
+      if(this.apiService.IsLogedIn === false){
+        this.authService.Logout();
+      }
     }
   }
   isMenuVisible: boolean = false;

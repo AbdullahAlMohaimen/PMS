@@ -2341,7 +2341,7 @@ td .p-button.p-button-danger:enabled:hover, .p-buttonset.p-button-danger > .p-bu
   border-radius: 0;
 }
 .p-datatable .p-datatable-header {
-  background: #FCFAF0;
+  background: #ffffff;
   color: #495057;
   border: 1px solid #e9ecef;
   border-width: 1px 0 1px 0;
@@ -3119,7 +3119,7 @@ td .p-button.p-button-danger:enabled:hover, .p-buttonset.p-button-danger > .p-bu
 }
 
 .p-paginator {
-  background: #FCFAF0;
+  background: #ffffff;
   color: #6c757d;
   border: solid #e9ecef;
   border-width: 0;
