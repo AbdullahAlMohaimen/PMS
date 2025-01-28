@@ -3,21 +3,18 @@ import { BasicBaseObject } from "../Basic/BasicBaseObject";
 export class Project extends BasicBaseObject{
   constructor() {
     super();
-    this.Id = 0;
-    this.Name = "";
-    this.Description = "";
-    this.Status = "";
-    this.StartDate = "";
-    this.EndDate = "";
-    this.TeamId = 0;
+    this.name = "";
+    this.description = "";
+    this.status = "";
+    this.startDate = "";
+    this.endDate = "";
+    this.teamId = 0;
 
   }
-  Id: number;
-  Name: string;
-  Description: string;
-  Status: string;
-  StartDate: string;
-  EndDate: string;
-  TeamId: number
-  
+  name: string;
+  description: string;
+  status: string;
+  startDate: string;
+  endDate: string;
+  teamId: number
 }

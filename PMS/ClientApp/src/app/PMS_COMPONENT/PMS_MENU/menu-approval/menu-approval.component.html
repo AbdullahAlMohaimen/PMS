@@ -1,1 +1,64 @@
-<p>menu-approval works!</p>
+<app-loading></app-loading>
+<div class="grid" style="margin: auto;">
+    <div class="col-12">
+        <p-table
+            [value]="allMenus" 
+            [rows]="10"
+            [first]="first"
+            [paginator]="true"
+            [scrollable]="true"
+            [resizableColumns]="true" 
+            [showCurrentPageReport]="true"
+            [tableStyle]="{'min-width': '50rem'}"
+            styleClass="p-datatable-gridlines p-datatable-striped" 
+            (onPage)="pageChange($event)"
+            [(selection)]="selectedMenu"
+            dataKey="id"
+            sortMode="multiple"
+            scrollHeight="450px"
+            [globalFilterFields]="['code', 'name', 'statusString', 'createdBy']"
+            [rowHover]="true">
+                <ng-template pTemplate="caption">
+                    <p-button [disabled]="allMenus.length === 0" (click)="approveAll()" label="Approve All" icon="pi pi-check" [raised]="true" [ngStyle]="{'margin-right': '5px',}"></p-button>
+                    <p-button [disabled]="selectedMenu.length === 0" (click)="approveSelected()" label="Approve Selected" icon="pi pi-check" [raised]="true"></p-button>
+
+                    <span class="p-input-icon-left shadow-6" style="width: 30%;margin-left: 10px;border-radius: 5px;">
+                        <i class="pi pi-search" style="font-weight: bold;"></i>
+                        <input  pInputText 
+                                type="text" 
+                                [(ngModel)]="searchText"
+                                placeholder="Search all columns..." 
+                                (input)="applyFilter($event)" 
+                                style="width: 100%;"/>
+                    </span> 
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th pResizableColumn alignFrozen="left" pFrozenColumn [frozen]="true" [style.width.px]="5" [style.textAlign]="'center'"><p-tableHeaderCheckbox /></th>
+                        <th pResizableColumn pSortableColumn="menuName" [style.width.px]="200">Menu Name <p-sortIcon field="menuName"/></th>
+                        <th pResizableColumn pSortableColumn="menuIcon" [style.width.px]="120">Menu Icon <p-sortIcon field="menuIcon"/></th>
+                        <th pResizableColumn pSortableColumn="menuPath" [style.width.px]="120">Menu Path <p-sortIcon field="menuPath"/></th>
+                        <th pResizableColumn pSortableColumn="menuKey" [style.width.px]="120">Menu Key <p-sortIcon field="menuKey"/></th>
+                        <th pResizableColumn pSortableColumn="menuStatus" [style.width.px]="120">Menu Status <p-sortIcon field="menuStatus"/></th>
+                        <th pResizableColumn alignFrozen="right" pFrozenColumn [frozen]="true" [style.width.px]="90" [style.textAlign]="'center'">Action</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-menu>
+                    <tr>
+                        <td alignFrozen="left" pFrozenColumn [frozen]="true" style="text-align: center;"><p-tableCheckbox [value]="menu"/></td>
+                        <td>{{menu.menuName}}</td>
+                        <td>{{menu.menuIcon}}</td>
+                        <td>{{menu.menuPath}}</td>
+                        <td>{{menu.menuKey}}</td>
+                        <td [ngStyle]="{'color': menu.menuStatusColor}" style="font-weight: bold;text-align: center;">
+                            {{menu.menuStatusString}}
+                        </td>
+                        <td alignFrozen="right" pFrozenColumn [frozen]="true" [style.textAlign]="'center'">
+                            <p-button label="Approve"  (click)="approve(menu)" icon="pi pi-check-circle" [raised]="true" [ngStyle]="{'margin-right': '5px'}"></p-button>
+                            <p-button label="Disapprove"  (click)="disApprove(menu)" icon="pi pi-ban" [raised]="true" severity="danger"></p-button>
+                        </td>
+                    </tr>
+                </ng-template>
+        </p-table>
+    </div>
+</div>
