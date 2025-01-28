@@ -16,7 +16,7 @@ namespace PMS.SERVICE
         {
             _contextFactory = contextFactory;
         }
-        public async Task<List<Project>> GetProjectByUser(int userId)
+        public async Task<List<Project>> GetByUser(int userId)
         {
             try
             {
@@ -28,7 +28,7 @@ namespace PMS.SERVICE
                 throw e.InnerException;
             }
         }
-        public async Task<List<Project>> GetProjectByTeam(int teamId)
+        public async Task<List<Project>> GetByTeam(int teamId)
         {
             try
             {

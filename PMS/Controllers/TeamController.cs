@@ -37,12 +37,12 @@ namespace PMS.Controllers
         }
 
         [HttpGet("getTeam/{userId}")]
-        public async Task<ActionResult> GetTeamByUser(int userId)
+        public async Task<ActionResult> GetByUser(int userId)
         {
             List<Team> items = new List<Team>();
             try
             {
-                items = await _service.GetTeamByUser(userId);
+                items = await _service.GetByUser(userId);
             }
             catch (Exception e)
             {

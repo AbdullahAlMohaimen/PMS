@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PMS.MODEL;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PMS.BO
 {
-	public class ProjectTask
+	public class ProjectTask:BasicBase
 	{
 		#region Constractor
 		public ProjectTask() { }
@@ -29,4 +30,12 @@ namespace PMS.BO
 		public ICollection<ActivityLog> ActivityLogs { get; set; } = new List<ActivityLog>();
 		public ICollection<TimeTracking> TimeTrackings { get; set; } = new List<TimeTracking>();
 	}
+
+	public interface IProjectTaskService
+	{
+		public Task<int> Save(ProjectTask item);
+		public Task<List<ProjectTask>> GetByUser(int userId);
+		public Task<List<ProjectTask>> Get(int Id);
+		public Task<List<ProjectTask>> GetByProject(int projectId);
+    }
 }

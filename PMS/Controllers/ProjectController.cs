@@ -52,13 +52,13 @@ namespace PMS.Controllers
             return Ok(items);
         }
 
-        [HttpGet("GetProjectByTeam/{userId}")]
+        [HttpGet("GetProjectByTeam/{teamId}")]
         public async Task<ActionResult> GetProjectByTeam(int teamId)
         {
             List<Project> items = new List<Project>();
             try
             {
-                items = await _service.GetProjectByUser(teamId);
+                items = await _service.GetProjectByTeam(teamId);
             }
             catch (Exception e)
             {
@@ -68,9 +68,9 @@ namespace PMS.Controllers
             return Ok(items);
         }
 
-        [HttpPost("SaveProject")]
+        [HttpPost("Save")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> SaveProject(Project Projects)
+        public async Task<ActionResult> Save(Project Projects)
         {
             try
             {
