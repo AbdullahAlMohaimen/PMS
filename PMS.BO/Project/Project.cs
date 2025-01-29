@@ -33,9 +33,9 @@ namespace PMS.BO
     public interface IProjectService
     {
         public Task<int> Save(Project item);
-        public Task<List<Project>> GetProjectByUser(int userId);
+        public Task<List<Project>> GetByUser(int userId);
         public Task<List<Project>> Get(int Id);
-		public Task<List<Project>> GetProjectByTeam(int teamId);
+		public Task<List<Project>> GetByTeam(int teamId);
     }
 	
 }

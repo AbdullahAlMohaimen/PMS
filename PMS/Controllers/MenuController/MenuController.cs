@@ -198,7 +198,7 @@ namespace PMS.Controllers
 		#endregion
 
 		#region UPDATE MENU STATUS
-		[HttpPost("UpdateMenuKey")]
+		[HttpPost("UpdateMenuStatus")]
 		public async Task<ActionResult> UPDATEMENUSTATUS(Menu oMenu)
 		{
 			CurrentUser oCurrentUser = CurrentUser.GET_CURRENT_USER(HttpContext.User);

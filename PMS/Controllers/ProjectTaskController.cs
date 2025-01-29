@@ -35,7 +35,7 @@ namespace PMS.Controllers
             return Ok(items);
         }
 
-        [HttpGet("GetProjectTaskByUser/{userId}")]
+        [HttpGet("GetByUser/{userId}")]
         public async Task<ActionResult> GetByUser(int userId)
         {
             List<ProjectTask> items = new List<ProjectTask>();

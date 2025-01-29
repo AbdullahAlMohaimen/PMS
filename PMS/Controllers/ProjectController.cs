@@ -36,13 +36,13 @@ namespace PMS.Controllers
             return Ok(items);
         }
 
-        [HttpGet("GetProjectByUser/{userId}")]
-        public async Task<ActionResult> GetProjectByUser(int userId)
+        [HttpGet("GetByUser/{userId}")]
+        public async Task<ActionResult> GetByUser(int userId)
         {
             List<Project> items = new List<Project>();
             try
             {
-                items = await _service.GetProjectByUser(userId);
+                items = await _service.GetByUser(userId);
             }
             catch (Exception e)
             {
@@ -52,13 +52,13 @@ namespace PMS.Controllers
             return Ok(items);
         }
 
-        [HttpGet("GetProjectByTeam/{teamId}")]
-        public async Task<ActionResult> GetProjectByTeam(int teamId)
+        [HttpGet("GetByTeam/{teamId}")]
+        public async Task<ActionResult> GetByTeam(int teamId)
         {
             List<Project> items = new List<Project>();
             try
             {
-                items = await _service.GetProjectByTeam(teamId);
+                items = await _service.GetByTeam(teamId);
             }
             catch (Exception e)
             {
